@@ -1,0 +1,136 @@
+version: 1
+
+# 어떤 PR에서 동작할지
+triggers:
+  on_open: true
+  on_sync: true        # PR에 커밋 추가될 때
+  on_reopen: true
+  on_ready_for_review: true
+  on_review_request: true
+  on_comment: false
+
+# 기본 동작
+review:
+  # 요약 코멘트 + 인라인 코멘트
+  comments:
+    summary: true
+    inline: true
+    max_comments: 30
+    suggest_fixes: true          # 코드 블록으로 수정 제안
+  # 큰 변경은 요약만
+  large_diff:
+    changed_files_threshold: 60
+    changed_lines_threshold: 1500
+    behavior: summarize
+
+  # 파일 무시(생성물/잠정파일/마이그레이션 등)
+  ignore:
+    - "**/.venv/**"
+    - "**/__pycache__/**"
+    - "**/.mypy_cache/**"
+    - "**/.ruff_cache/**"
+    - "**/.pytest_cache/**"
+    - "**/alembic/versions/**"  # 마이그레이션은 보통 자동 생성 → 지적 최소화
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/*.lock"
+    - "**/*.env"
+    - "**/.env*"
+    - "**/*.sql"                # 필요시 제거
+    - "**/node_modules/**"
+
+  # 언어/규칙(파이썬 위주)
+  rules:
+    - name: python-style
+      enabled: true
+      config:
+        # 스타일
+        line_length: 100
+        require_type_hints: false
+        prefer_fstrings: true
+        allow_print: false
+        disallow_wildcard_imports: true
+        prefer_contextlib_suppress: true
+
+    - name: python-quality
+      enabled: true
+      config:
+        detect_dead_code: true
+        flag_large_functions: 80            # 80줄 넘는 함수는 분리 제안
+        flag_long_parameter_lists: 6
+        require_docstrings_public_api: true
+        flag_mutable_default_args: true
+
+    - name: security
+      enabled: true
+      config:
+        # FastAPI/SQLAlchemy 보안 체크 포인트
+        fastapi:
+          validate_request_models: true
+          check_cors_middleware: true
+          flag_open_cors: true
+          flag_plaintext_password_usage: true
+        sqlalchemy:
+          flag_textual_sql_without_params: true    # f-string SQL 금지
+          flag_session_without_contextmanager: true
+          flag_missing_index_for_fk: false         # 필요시 true
+        secrets:
+          detect_hardcoded_secrets: true
+          ignore_patterns:
+            - "example|sample|dummy|changeme"
+        jwt:
+          check_exp_claim: true
+          check_alg_is_hs256_or_rs256: true
+          flag_hardcoded_secret: true
+
+    - name: performance
+      enabled: true
+      config:
+        flag_n_plus_one_queries: true
+        prefer_selectinload_over_joinedload: false
+        prefer_bulk_inserts_for_large_batches: true
+
+    - name: tests
+      enabled: true
+      config:
+        require_test_for_changed_backend_code: false   # 초기엔 완화, 추후 true
+        test_paths:
+          - "tests/**"
+        min_changes_to_enforce: 60                     # 큰 변경 시 테스트 요구
+
+    - name: api-contract
+      enabled: true
+      config:
+        # 스키마/엔드포인트 정합성 힌트
+        ensure_pydantic_models_used: true
+        ensure_response_model_or_docstring: true
+        prefer_httpbearer_for_auth: true
+        suggest_openapi_summary_description: true
+
+  # PR 제목/본문 체크 (컨벤션)
+  pr_conventions:
+    title:
+      required: true
+      patterns:
+        - "^(feat|fix|chore|docs|refactor|test|perf|build|ci)(\\(.+\\))?: .+"
+      suggestion: "예) feat(auth): register & login with JWT"
+    body:
+      required: false
+      checklists:
+        - "이 변경의 목적은 명확하게 설명되었나요?"
+        - "브레이킹 체인지가 있다면 명시했나요?"
+        - "보안/비밀정보가 포함되지 않았나요?"
+
+# 리뷰 강도(초기엔 balanced)
+mode:
+  strictness: balanced   # balanced | lenient | strict
+
+# 리뷰어 멘션 (선택)
+notifications:
+  request_review_from_authors: false
+  additional_reviewers: []       # 예: ["@teammate1", "@teammate2"]
+
+# 레이블 기반 동작 (선택)
+labels:
+  skip_review: ["skip-cr", "wip"]
+  security_focus: ["security", "sec"]
