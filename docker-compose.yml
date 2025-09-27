@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: fitc-mysql
+    environment:
+      MYSQL_DATABASE: fitconnect
+      MYSQL_USER: fitc
+      MYSQL_PASSWORD: fitc_pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports: ["3306:3306"]
+    command: ["--default-authentication-plugin=caching_sha2_password"]
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:
