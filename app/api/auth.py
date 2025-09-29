@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.security import create_access_token, hash_password, verify_password
@@ -33,9 +34,13 @@ def register(payload: UserRegisterRequest, db: Session = Depends(get_db)):
         password_hash=hash_password(payload.password),
         role=payload.role,
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+    try:
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
     return {"id": user.id, "email": user.email, "role": user.role}
 
@@ -54,5 +59,4 @@ def login(payload: UserLoginRequest, db: Session = Depends(get_db)) -> TokenResp
         data={"sub": str(user.id), "email": user.email, "role": user.role},
         expires_delta=timedelta(minutes=settings.JWT_EXPIRE_MINUTES),
     )
-    return TokenResponse(access_token=token)
-
+    return TokenResponse(access_token=token, role=user.role)

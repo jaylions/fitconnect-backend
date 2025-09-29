@@ -10,7 +10,7 @@ triggers:
   on_comment: false
 
 # 기본 동작
-review:
+reviews:
   # 요약 코멘트 + 인라인 코멘트
   comments:
     summary: true
@@ -24,7 +24,7 @@ review:
     behavior: summarize
 
   # 파일 무시(생성물/잠정파일/마이그레이션 등)
-  ignore:
+  path_filters:
     - "**/.venv/**"
     - "**/__pycache__/**"
     - "**/.mypy_cache/**"
