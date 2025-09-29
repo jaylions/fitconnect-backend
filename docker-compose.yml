@@ -8,7 +8,11 @@ services:
       MYSQL_PASSWORD: fitc_pass
       MYSQL_ROOT_PASSWORD: rootpass
     ports: ["3306:3306"]
-    command: ["--default-authentication-plugin=caching_sha2_password"]
+    command: [
+      "--default-authentication-plugin=caching_sha2_password",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci"
+    ]
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
       interval: 5s
