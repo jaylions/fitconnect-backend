@@ -16,5 +16,5 @@ class UserLoginRequest(BaseModel):
 
 class TokenResponse(BaseModel):
     access_token: str
+    role: Literal["talent", "company"]
     token_type: str = "bearer"
-

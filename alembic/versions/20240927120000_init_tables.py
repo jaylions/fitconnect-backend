@@ -24,7 +24,7 @@ def upgrade() -> None:
         sa.Column('password_hash', sa.String(length=255), nullable=False),
         sa.Column('role', sa.Enum('talent', 'company', name='user_role'), nullable=False),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
         sa.UniqueConstraint('email', name='uq_users_email'),
     )
@@ -40,7 +40,7 @@ def upgrade() -> None:
         sa.Column('profile_step', sa.Integer(), nullable=True),
         sa.Column('is_submitted', sa.Boolean(), nullable=False, server_default=sa.text('0')),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -53,7 +53,7 @@ def upgrade() -> None:
         sa.Column('location', sa.String(length=255), nullable=True),
         sa.Column('description', sa.String(length=1024), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -67,7 +67,7 @@ def upgrade() -> None:
         sa.Column('start_ym', sa.Date(), nullable=True),
         sa.Column('end_ym', sa.Date(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -82,7 +82,7 @@ def upgrade() -> None:
         sa.Column('leave_reason', sa.String(length=255), nullable=True),
         sa.Column('summary', sa.String(length=2048), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -95,7 +95,7 @@ def upgrade() -> None:
         sa.Column('period_ym', sa.Date(), nullable=True),
         sa.Column('description', sa.String(length=2048), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -107,7 +107,7 @@ def upgrade() -> None:
         sa.Column('score_or_grade', sa.String(length=255), nullable=True),
         sa.Column('acquired_ym', sa.Date(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -121,7 +121,7 @@ def upgrade() -> None:
         sa.Column('mime_type', sa.String(length=100), nullable=True),
         sa.Column('file_size', sa.BigInteger(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
-        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')),
+        sa.Column('updated_at', sa.DateTime(), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP'), server_onupdate=sa.text('CURRENT_TIMESTAMP')),
         sa.Column('deleted_at', sa.DateTime(), nullable=True),
     )
 
@@ -136,4 +136,3 @@ def downgrade() -> None:
     op.drop_table('talent_profiles')
     op.drop_index('ix_users_email', table_name='users')
     op.drop_table('users')
-
