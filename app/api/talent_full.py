@@ -7,7 +7,23 @@ from jose import JWTError, jwt
 
 from app.core.settings import settings
 from app.schemas.full_profile import FullProfileIn
+from app.schemas.talent_response import (
+    TalentActivityListResponse,
+    TalentBasicResponse,
+    TalentCertificationListResponse,
+    TalentDocumentListResponse,
+    TalentEducationListResponse,
+    TalentExperienceListResponse,
+)
 from app.services.full_profile import save_full_profile
+from app.services.talent_read import (
+    get_basic_profile,
+    list_activities,
+    list_certifications,
+    list_documents,
+    list_educations,
+    list_experiences,
+)
 
 
 router = APIRouter(prefix="/api/me/talent", tags=["talent"])
@@ -58,3 +74,38 @@ def save_full(
         },
     )
 
+
+@router.get("/basic", response_model=TalentBasicResponse)
+def read_basic_profile(user_id: int = Depends(get_current_user_id)) -> TalentBasicResponse:
+    basic = get_basic_profile(user_id)
+    return TalentBasicResponse(data=basic)
+
+
+@router.get("/educations", response_model=TalentEducationListResponse)
+def read_educations(user_id: int = Depends(get_current_user_id)) -> TalentEducationListResponse:
+    educations = list_educations(user_id)
+    return TalentEducationListResponse(data=educations)
+
+
+@router.get("/experiences", response_model=TalentExperienceListResponse)
+def read_experiences(user_id: int = Depends(get_current_user_id)) -> TalentExperienceListResponse:
+    experiences = list_experiences(user_id)
+    return TalentExperienceListResponse(data=experiences)
+
+
+@router.get("/activities", response_model=TalentActivityListResponse)
+def read_activities(user_id: int = Depends(get_current_user_id)) -> TalentActivityListResponse:
+    activities = list_activities(user_id)
+    return TalentActivityListResponse(data=activities)
+
+
+@router.get("/certifications", response_model=TalentCertificationListResponse)
+def read_certifications(user_id: int = Depends(get_current_user_id)) -> TalentCertificationListResponse:
+    certifications = list_certifications(user_id)
+    return TalentCertificationListResponse(data=certifications)
+
+
+@router.get("/documents", response_model=TalentDocumentListResponse)
+def read_documents(user_id: int = Depends(get_current_user_id)) -> TalentDocumentListResponse:
+    documents = list_documents(user_id)
+    return TalentDocumentListResponse(data=documents)
