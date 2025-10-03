@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.auth import router as auth_router
-from app.api import talent_full
+from app.api.routes.talent import router as talent_router
+from app.api.routes.company import router as company_router
 
 
 app = FastAPI(title="FitConnect API")
@@ -26,4 +27,5 @@ def health():
 
 
 app.include_router(auth_router)
-app.include_router(talent_full.router)
+app.include_router(talent_router)
+app.include_router(company_router)
