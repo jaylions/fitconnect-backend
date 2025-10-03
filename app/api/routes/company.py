@@ -6,7 +6,9 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_db, require_company_role
 from app.schemas.company import CompanyFullIn
+from app.schemas.job_posting import JobPostingCreateIn
 from app.services import company_service
+from app.services import job_posting_service
 
 
 router = APIRouter(prefix="/api/me/company", tags=["company"])
@@ -80,3 +82,33 @@ def submit_company(user=Depends(require_company_role), db: Session = Depends(get
         "data": {"is_submitted": company.is_submitted or 0, "profile_step": company.profile_step or 0},
     }
 
+
+@router.post("/job-postings")
+def create_job_posting(payload: JobPostingCreateIn, user=Depends(require_company_role), db: Session = Depends(get_db)):
+    try:
+        with db.begin():
+            posting = job_posting_service.create(db, owner_user_id=user["id"], payload=payload.model_dump())
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_422_UNPROCESSABLE_ENTITY):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+
+    return JSONResponse(
+        status_code=status.HTTP_201_CREATED,
+        content={
+            "ok": True,
+            "data": {
+                "id": posting.id,
+                "status": posting.status,
+                "company_id": posting.company_id,
+                "title": posting.title,
+                "employment_type": posting.employment_type,
+                "location_city": posting.location_city,
+                "career_level": posting.career_level,
+                "education_level": posting.education_level,
+                "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
+                "created_at": posting.created_at.isoformat() if posting.created_at else None,
+                "updated_at": posting.updated_at.isoformat() if posting.updated_at else None,
+            },
+        },
+    )
