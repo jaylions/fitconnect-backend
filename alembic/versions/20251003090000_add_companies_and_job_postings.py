@@ -132,3 +132,10 @@ def downgrade() -> None:
     op.drop_index("ix_job_postings_company_status", table_name="job_postings")
     op.drop_table("job_postings")
     op.drop_table("companies")
+    # Clean up PostgreSQL enum types to avoid "type already exists" on re-run
+    bind = op.get_bind()
+    if bind.dialect.name == "postgresql":
+        # Enum type names as declared in upgrade()
+        op.execute("DROP TYPE IF EXISTS job_posting_status")
+        op.execute("DROP TYPE IF EXISTS employment_type")
+        op.execute("DROP TYPE IF EXISTS company_size")

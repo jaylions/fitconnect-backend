@@ -19,8 +19,8 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # Use raw SQL for IF EXISTS safety on MySQL
-    op.execute(sa.text("DROP TABLE IF EXISTS `company_profiles`"))
+    # Use dialect-neutral DROP with IF EXISTS (works across major backends)
+    op.execute(sa.text("DROP TABLE IF EXISTS company_profiles"))
 
 
 def downgrade() -> None:
@@ -43,4 +43,3 @@ def downgrade() -> None:
         ),
         sa.Column("deleted_at", sa.DateTime(), nullable=True),
     )
-
