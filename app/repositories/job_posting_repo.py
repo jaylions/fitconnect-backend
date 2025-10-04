@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Sequence
 
 from sqlalchemy.orm import Session
+from sqlalchemy import select, desc
 
 from app.models.job_posting import JobPosting
 
@@ -36,3 +37,10 @@ def create(db: Session, company_id: int, data: dict) -> JobPosting:
     db.flush()
     return posting
 
+
+def list_by_company(db: Session, company_id: int, status: Optional[str] = None) -> Sequence[JobPosting]:
+    stmt = select(JobPosting).where(JobPosting.company_id == company_id)
+    if status is not None:
+        stmt = stmt.where(JobPosting.status == status)
+    stmt = stmt.order_by(desc(JobPosting.created_at))
+    return db.execute(stmt).scalars().all()

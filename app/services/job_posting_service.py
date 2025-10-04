@@ -47,3 +47,15 @@ def create(db: Session, owner_user_id: int, payload: dict):
     posting = job_posting_repo.create(db, company_id=company.id, data=payload)
     return posting
 
+
+def list_mine(db: Session, owner_user_id: int, status_filter: str | None = None):
+    # Ensure company exists
+    company = company_repo.get_by_owner(db, owner_user_id)
+    if company is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"code": "COMPANY_NOT_FOUND", "message": "Company not found"})
+
+    if status_filter is not None and status_filter not in ALLOWED_STATUS:
+        raise _val_error("status invalid")
+
+    postings = job_posting_repo.list_by_company(db, company_id=company.id, status=status_filter)
+    return postings

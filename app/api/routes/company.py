@@ -112,3 +112,32 @@ def create_job_posting(payload: JobPostingCreateIn, user=Depends(require_company
             },
         },
     )
+
+
+@router.get("/job-postings")
+def list_job_postings(posting_status: str | None = None, user=Depends(require_company_role), db: Session = Depends(get_db)):
+    try:
+        postings = job_posting_service.list_mine(db, owner_user_id=user["id"], status_filter=posting_status)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_422_UNPROCESSABLE_ENTITY):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+
+    items = [
+        {
+            "id": p.id,
+            "status": p.status,
+            "company_id": p.company_id,
+            "title": p.title,
+            "employment_type": p.employment_type,
+            "location_city": p.location_city,
+            "career_level": p.career_level,
+            "education_level": p.education_level,
+            "deadline_date": p.deadline_date.isoformat() if p.deadline_date else None,
+            "created_at": p.created_at.isoformat() if p.created_at else None,
+            "updated_at": p.updated_at.isoformat() if p.updated_at else None,
+        }
+        for p in postings
+    ]
+
+    return {"ok": True, "data": items}
