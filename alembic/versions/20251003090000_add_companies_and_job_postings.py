@@ -98,7 +98,14 @@ def upgrade() -> None:
         sa.Column("competencies", sa.JSON(), nullable=True),
         sa.Column(
             "status",
-            sa.Enum("DRAFT", "PUBLISHED", "CLOSED", "ARCHIVED", name="job_posting_status"),
+            sa.Enum(
+                "DRAFT",
+                "PUBLISHED",
+                "CLOSED",
+                "ARCHIVED",
+                name="job_posting_status",
+                native_enum=True,
+            ),
             nullable=False,
             server_default=sa.text("'DRAFT'"),
         ),
