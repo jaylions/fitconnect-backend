@@ -10,6 +10,7 @@ from app.core.settings import settings
 from app.db.session import SessionLocal
 from app.models.user import User
 from app.schemas.auth import TokenResponse, UserLoginRequest, UserRegisterRequest
+from app.models.company import Company
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -38,6 +39,13 @@ def register(payload: UserRegisterRequest, db: Session = Depends(get_db)):
         db.add(user)
         db.commit()
         db.refresh(user)
+        # Seed company row for company role
+        if user.role == "company":
+            existing_company = db.execute(select(Company).where(Company.owner_user_id == user.id)).scalar_one_or_none()
+            if existing_company is None:
+                company = Company(owner_user_id=user.id, name="", industry="", location_city="")
+                db.add(company)
+                db.commit()
     except IntegrityError:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
