@@ -11,25 +11,26 @@ from sqlalchemy import (
     ForeignKey,
     SmallInteger,
     Text,
-    String,          # ✅ 추가
+    String,
     JSON,
-    text,            # ✅ sa.text 대신 바로 사용
+    text,
     Enum,
-    func            # (size 등을 Enum으로 썼다면 필요)
+    func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
 
 
-# MySQL-compatible ENUM for company size
+# Company size enum (Korean labels)
 CompanySizeEnum = sa.Enum(
-    "S_1_10",
-    "S_11_50",
-    "M_51_200",
-    "L_201_500",
-    "XL_501_1000",
-    "ENT_1000P",
+    "1 ~ 10명",
+    "10 ~ 50명",
+    "50 ~ 100명",
+    "100 ~ 200명",
+    "200 ~ 500명",
+    "500 ~ 1000명",
+    "1000명 이상",
     name="company_size",
 )
 

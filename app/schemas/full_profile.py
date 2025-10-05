@@ -38,7 +38,7 @@ class BasicProfile(BaseModel):
 class EducationIn(BaseModel):
     school_name: str
     major: Optional[str] = None
-    status: Literal["재학", "졸업", "휴학", "수료", "중퇴"]
+    status: Literal["재학", "휴학", "졸업 예정", "졸업 유예", "졸업", "중퇴"]
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
 
@@ -107,4 +107,3 @@ class FullProfileOut(BaseModel):
     user_id: int
     profile_step: int
     is_submitted: int
-

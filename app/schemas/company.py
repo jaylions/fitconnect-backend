@@ -2,16 +2,17 @@ from __future__ import annotations
 
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from pydantic import BaseModel, ConfigDict, Field
 
 
 CompanySize = Literal[
-    "S_1_10",
-    "S_11_50",
-    "M_51_200",
-    "L_201_500",
-    "XL_501_1000",
-    "ENT_1000P",
+    "1 ~ 10명",
+    "10 ~ 50명",
+    "50 ~ 100명",
+    "100 ~ 200명",
+    "200 ~ 500명",
+    "500 ~ 1000명",
+    "1000명 이상",
 ]
 
 
@@ -20,8 +21,8 @@ class CompanyBasicIn(BaseModel):
     industry: str = Field(min_length=1)
     size: Optional[CompanySize] = None
     location_city: str = Field(min_length=1)
-    homepage_url: Optional[HttpUrl] = None
-    career_page_url: Optional[HttpUrl] = None
+    homepage_url: Optional[str] = None
+    career_page_url: Optional[str] = None
     one_liner: Optional[str] = Field(default=None, max_length=120)
 
 
@@ -43,7 +44,7 @@ class CompanyFullIn(BaseModel):
             "basic": {
                 "name": "FitConnect",
                 "industry": "Software",
-                "size": "M_51_200",
+                "size": "50 ~ 100명",
                 "location_city": "Seoul",
                 "homepage_url": "https://fitconnect.io",
                 "career_page_url": "https://fitconnect.io/careers",
@@ -90,4 +91,3 @@ class CompanyOut(BaseModel):
     status: str
     created_at: str
     updated_at: str
-

@@ -8,12 +8,13 @@ from sqlalchemy.orm import Session
 from app.repositories import company_repo
 
 ALLOWED_SIZE = {
-    "S_1_10",
-    "S_11_50",
-    "M_51_200",
-    "L_201_500",
-    "XL_501_1000",
-    "ENT_1000P",
+    "1 ~ 10명",
+    "10 ~ 50명",
+    "50 ~ 100명",
+    "100 ~ 200명",
+    "200 ~ 500명",
+    "500 ~ 1000명",
+    "1000명 이상",
 }
 
 
@@ -67,4 +68,3 @@ def submit_company(db: Session, owner_user_id: int):
     company.profile_step = max(company.profile_step or 0, 2)
     db.flush()
     return company
-

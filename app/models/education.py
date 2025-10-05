@@ -16,7 +16,16 @@ class Education(Base):
     school_name: Mapped[str] = mapped_column(String(255), nullable=False)
     major: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     status: Mapped[str] = mapped_column(
-        Enum("재학", "졸업", "휴학", "수료", "중퇴", name="education_status"), nullable=False
+        Enum(
+            "재학",
+            "휴학",
+            "졸업 예정",
+            "졸업 유예",
+            "졸업",
+            "중퇴",
+            name="education_status",
+        ),
+        nullable=False,
     )
     start_ym: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     end_ym: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
@@ -28,4 +37,3 @@ class Education(Base):
         DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
     )
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
-

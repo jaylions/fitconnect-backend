@@ -59,4 +59,3 @@ def update_full(
 
     db.flush()
     return company
-

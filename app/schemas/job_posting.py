@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl
+from pydantic import BaseModel, ConfigDict, Field
 
 
 EmploymentType = Literal[
@@ -28,10 +28,14 @@ class JobPostingCreateIn(BaseModel):
 
     # Optional basics
     position_group: Optional[str] = None
+    position: Optional[str] = None
     department: Optional[str] = None
     start_date: Optional[date] = None
     term_months: Optional[int] = None
-    homepage_url: Optional[HttpUrl] = None
+    homepage_url: Optional[str] = None
+    # Aliases for convenience (mapped to start_date/term_months in repo)
+    join: Optional[date] = None
+    period: Optional[int] = None
     deadline_date: Optional[date] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
@@ -79,4 +83,3 @@ class JobPostingOut(BaseModel):
     deadline_date: Optional[date] = None
     created_at: str
     updated_at: str
-
