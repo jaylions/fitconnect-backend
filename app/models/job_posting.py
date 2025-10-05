@@ -50,6 +50,7 @@ class JobPosting(TimestampMixin, Base):
 
     title: Mapped[str] = mapped_column(Text, nullable=False)
     position_group: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    position: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     department: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     employment_type: Mapped[str] = mapped_column(EmploymentTypeEnum, nullable=False)
     location_city: Mapped[str] = mapped_column(Text, nullable=False)
@@ -87,4 +88,3 @@ class JobPosting(TimestampMixin, Base):
 
     def __repr__(self) -> str:  # pragma: no cover - debugging aid
         return f"JobPosting(id={self.id}, title={self.title!r})"
-
