@@ -177,3 +177,80 @@ def list_job_postings(posting_status: str | None = None, user=Depends(require_co
     ]
 
     return {"ok": True, "data": items}
+
+
+@router.patch("/job-postings/{posting_id}")
+def update_job_posting(
+    posting_id: int,
+    payload: dict,
+    user=Depends(require_company_role),
+    db: Session = Depends(get_db),
+):
+    try:
+        with db.begin():
+            posting = job_posting_service.update(db, owner_user_id=user["id"], posting_id=posting_id, payload=payload)
+    except HTTPException as e:
+        if e.status_code in (
+            status.HTTP_404_NOT_FOUND,
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+        ):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+
+    return {
+        "ok": True,
+        "data": {
+            "id": posting.id,
+            "company_id": posting.company_id,
+            "title": posting.title,
+            "position_group": posting.position_group,
+            "position": getattr(posting, "position", None),
+            "department": posting.department,
+            "employment_type": posting.employment_type,
+            "location_city": posting.location_city,
+            "career_level": posting.career_level,
+            "education_level": posting.education_level,
+            "start_date": posting.start_date.isoformat() if posting.start_date else None,
+            "term_months": posting.term_months,
+            "homepage_url": posting.homepage_url,
+            "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
+            "contact_email": posting.contact_email,
+            "contact_phone": posting.contact_phone,
+            "salary_band": posting.salary_band,
+            "responsibilities": posting.responsibilities,
+            "requirements_must": posting.requirements_must,
+            "requirements_nice": posting.requirements_nice,
+            "competencies": posting.competencies,
+            "status": posting.status,
+            "jd_file_id": posting.jd_file_id,
+            "extra_file_id": posting.extra_file_id,
+            "published_at": posting.published_at.isoformat() if posting.published_at else None,
+            "closed_at": posting.closed_at.isoformat() if posting.closed_at else None,
+            "deleted_at": posting.deleted_at.isoformat() if posting.deleted_at else None,
+            "created_at": posting.created_at.isoformat() if posting.created_at else None,
+            "updated_at": posting.updated_at.isoformat() if posting.updated_at else None,
+        },
+    }
+
+
+@router.delete("/job-postings/{posting_id}")
+def delete_job_posting(
+    posting_id: int,
+    user=Depends(require_company_role),
+    db: Session = Depends(get_db),
+):
+    try:
+        with db.begin():
+            posting = job_posting_service.delete(db, owner_user_id=user["id"], posting_id=posting_id)
+    except HTTPException as e:
+        if e.status_code in (
+            status.HTTP_404_NOT_FOUND,
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+        ):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+
+    return {
+        "ok": True,
+        "data": {"id": posting.id, "deleted_at": posting.deleted_at.isoformat() if posting.deleted_at else None},
+    }
