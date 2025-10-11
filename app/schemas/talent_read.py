@@ -41,6 +41,7 @@ class ExperienceOut(_OrmBase):
     title: str
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
+    duration_years: Optional[int] = None
     leave_reason: Optional[str] = None
     summary: Optional[str] = None
     created_at: datetime

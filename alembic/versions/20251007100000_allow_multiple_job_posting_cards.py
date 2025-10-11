@@ -30,16 +30,21 @@ def _get_inspector() -> sa.Inspector:
 def _drop_foreign_keys_to_job_postings(table_name: str = "job_posting_cards") -> list[str]:
     inspector = _get_inspector()
     dropped: list[str] = []
+    target_name = "fk_job_posting_cards_job_posting_id"
+    target_columns = ["job_posting_id"]
 
     for fk in inspector.get_foreign_keys(table_name):
+        fk_name = fk.get("name")
         constrained_columns = fk.get("constrained_columns") or []
-        if (
-            fk.get("name")
-            and fk.get("referred_table") == "job_postings"
-            and "job_posting_id" in constrained_columns
-        ):
-            op.drop_constraint(fk["name"], table_name, type_="foreignkey")
-            dropped.append(fk["name"])
+        if fk.get("referred_table") != "job_postings":
+            continue
+
+        if fk_name not in {target_name, None} and constrained_columns != target_columns:
+            continue
+
+        if fk_name:
+            op.drop_constraint(fk_name, table_name, type_="foreignkey")
+            dropped.append(fk_name)
 
     return dropped
 

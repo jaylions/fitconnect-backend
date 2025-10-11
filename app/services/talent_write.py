@@ -90,6 +90,10 @@ def create_experience(user_id: int, payload: dict) -> Experience:
                 end_ym=payload.get("end_ym"),
                 leave_reason=payload.get("leave_reason"),
                 summary=payload.get("summary"),
+                duration_years=Experience.calculate_duration_years(
+                    payload.get("start_ym"),
+                    payload.get("end_ym"),
+                ),
             )
             session.add(row)
             session.flush()
@@ -106,6 +110,7 @@ def update_experience(user_id: int, exp_id: int, payload: dict) -> Experience:
             row = _require_owned(session, Experience, exp_id, user_id)
             for k, v in payload.items():
                 setattr(row, k, v)
+            row.duration_years = Experience.calculate_duration_years(row.start_ym, row.end_ym)
             session.flush()
             session.refresh(row)
             return row
