@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint, func
+from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -15,11 +15,10 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class JobPostingCard(Base):
     __tablename__ = "job_posting_cards"
-    __table_args__ = (UniqueConstraint("job_posting_id", name="uq_job_posting_cards_job_posting_id"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     job_posting_id: Mapped[int] = mapped_column(
-        BigInteger, ForeignKey("job_postings.id", ondelete="CASCADE"), nullable=False, unique=True
+        BigInteger, ForeignKey("job_postings.id", ondelete="CASCADE"), nullable=False
     )
 
     header_title: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
@@ -43,4 +42,4 @@ class JobPostingCard(Base):
         DateTime, nullable=False, server_default=func.now(), onupdate=func.now()
     )
 
-    job_posting: Mapped["JobPosting"] = relationship("JobPosting", back_populates="card")
+    job_posting: Mapped["JobPosting"] = relationship("JobPosting", back_populates="cards")
