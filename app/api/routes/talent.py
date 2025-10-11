@@ -13,6 +13,8 @@ from app.schemas.talent_response import (
     TalentDocumentListResponse,
     TalentEducationListResponse,
     TalentExperienceListResponse,
+    TalentFullData,
+    TalentFullResponse,
 )
 from app.services.full_profile import save_full_profile
 from app.services.talent_read import (
@@ -84,6 +86,20 @@ def save_full(
 def read_basic_profile(user=Depends(get_current_user)) -> TalentBasicResponse:
     basic = get_basic_profile(int(user["id"]))
     return TalentBasicResponse(data=basic)
+
+
+@router.get("/full", response_model=TalentFullResponse)
+def read_full_profile(user=Depends(get_current_user)) -> TalentFullResponse:
+    user_id = int(user["id"])
+    data = TalentFullData(
+        basic=get_basic_profile(user_id),
+        educations=list_educations(user_id),
+        experiences=list_experiences(user_id),
+        activities=list_activities(user_id),
+        certifications=list_certifications(user_id),
+        documents=list_documents(user_id),
+    )
+    return TalentFullResponse(data=data)
 
 
 @router.get("/educations", response_model=TalentEducationListResponse)
