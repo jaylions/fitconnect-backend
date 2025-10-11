@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.auth import router as auth_router
 from app.api.routes.talent import router as talent_router
-from app.api.routes.company import router as company_router
+from app.api.routes.company import router as company_router, public_router as company_public_router
 from app.api.routes.job_posting_card import router as job_posting_card_router
 from app.api.routes.talent_card import router as talent_card_router
 
@@ -31,5 +31,6 @@ def health():
 app.include_router(auth_router)
 app.include_router(talent_router)
 app.include_router(company_router)
+app.include_router(company_public_router)
 app.include_router(job_posting_card_router)
 app.include_router(talent_card_router)

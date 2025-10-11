@@ -26,18 +26,6 @@ def create_job_posting_card(payload: JobPostingCardCreate, db: Session = Depends
             },
         )
 
-    existing = db.scalar(
-        select(JobPostingCard).where(JobPostingCard.job_posting_id == payload.job_posting_id)
-    )
-    if existing is not None:
-        return JSONResponse(
-            status_code=status.HTTP_409_CONFLICT,
-            content={
-                "ok": False,
-                "error": {"code": "CARD_EXISTS", "message": "Job posting already has a card"},
-            },
-        )
-
     card = JobPostingCard(**payload.model_dump())
     with db.begin():
         db.add(card)
@@ -48,14 +36,14 @@ def create_job_posting_card(payload: JobPostingCardCreate, db: Session = Depends
 
 @router.get("/{job_posting_id}")
 def get_job_posting_card(job_posting_id: int, db: Session = Depends(get_db)):
-    card = db.scalar(
+    cards = db.scalars(
         select(JobPostingCard).where(JobPostingCard.job_posting_id == job_posting_id)
-    )
-    if card is None:
+    ).all()
+    if not cards:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={"ok": False, "error": {"code": "NOT_FOUND", "message": "Card not found"}},
         )
 
-    response = JobPostingCardResponse.model_validate(card)
-    return {"ok": True, "data": response.model_dump(mode="json")}
+    response = [JobPostingCardResponse.model_validate(card) for card in cards]
+    return {"ok": True, "data": [item.model_dump(mode="json") for item in response]}

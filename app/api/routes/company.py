@@ -12,18 +12,11 @@ from app.services import job_posting_service
 
 
 router = APIRouter(prefix="/api/me/company", tags=["company"])
+public_router = APIRouter(prefix="/api/companies", tags=["company"])
 
 
-@router.get("")
-def get_company(user=Depends(require_company_role), db: Session = Depends(get_db)):
-    try:
-        company = company_service.get_my_company(db, owner_user_id=user["id"])
-    except HTTPException as e:
-        if e.status_code == status.HTTP_404_NOT_FOUND:
-            return JSONResponse(status_code=404, content={"ok": False, "error": e.detail})
-        raise
-
-    data = {
+def _serialize_company(company):
+    return {
         "id": company.id,
         "basic": {
             "name": company.name or "",
@@ -47,7 +40,18 @@ def get_company(user=Depends(require_company_role), db: Session = Depends(get_db
         "created_at": company.created_at.isoformat() if company.created_at else None,
         "updated_at": company.updated_at.isoformat() if company.updated_at else None,
     }
-    return {"ok": True, "data": data}
+
+
+@router.get("")
+def get_company(user=Depends(require_company_role), db: Session = Depends(get_db)):
+    try:
+        company = company_service.get_my_company(db, owner_user_id=user["id"])
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(status_code=404, content={"ok": False, "error": e.detail})
+        raise
+
+    return {"ok": True, "data": _serialize_company(company)}
 
 
 @router.post("/full")
@@ -254,3 +258,15 @@ def delete_job_posting(
         "ok": True,
         "data": {"id": posting.id, "deleted_at": posting.deleted_at.isoformat() if posting.deleted_at else None},
     }
+
+
+@public_router.get("/{company_id}")
+def get_company_profile(company_id: int, db: Session = Depends(get_db)):
+    try:
+        company = company_service.get_public_company(db, company_id=company_id)
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(status_code=404, content={"ok": False, "error": e.detail})
+        raise
+
+    return {"ok": True, "data": _serialize_company(company)}

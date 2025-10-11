@@ -43,6 +43,16 @@ def validate_full_payload(payload: dict) -> None:
     # Here we keep minimal additional checks.
 
 
+def get_public_company(db: Session, company_id: int):
+    company = company_repo.get_by_id(db, company_id)
+    if company is None or not company.is_submitted or company.status != "ACTIVE":
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "COMPANY_NOT_FOUND", "message": "Company not found"},
+        )
+    return company
+
+
 def get_my_company(db: Session, owner_user_id: int):
     company = company_repo.get_by_owner(db, owner_user_id)
     if company is None:

@@ -89,10 +89,9 @@ class JobPosting(TimestampMixin, Base):
         sa.Index("ix_job_postings_deadline_date", "deadline_date"),
     )
 
-    card: Mapped[Optional["JobPostingCard"]] = relationship(
+    cards: Mapped[list["JobPostingCard"]] = relationship(
         "JobPostingCard",
         back_populates="job_posting",
-        uselist=False,
     )
 
     def __repr__(self) -> str:  # pragma: no cover - debugging aid

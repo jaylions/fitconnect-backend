@@ -12,6 +12,10 @@ def get_by_owner(db: Session, user_id: int) -> Optional[Company]:
     return db.execute(select(Company).where(Company.owner_user_id == user_id)).scalar_one_or_none()
 
 
+def get_by_id(db: Session, company_id: int) -> Optional[Company]:
+    return db.get(Company, company_id)
+
+
 def seed_if_absent(db: Session, owner_user_id: int) -> Company:
     company = get_by_owner(db, owner_user_id)
     if company is not None:
