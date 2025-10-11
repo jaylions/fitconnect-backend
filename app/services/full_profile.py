@@ -78,6 +78,10 @@ def save_full_profile(user_id: int, payload: FullProfileIn) -> FullProfileOut:
                         "end_ym": x.end_ym,
                         "leave_reason": x.leave_reason,
                         "summary": x.summary,
+                        "duration_years": Experience.calculate_duration_years(
+                            x.start_ym,
+                            x.end_ym,
+                        ),
                     }
                 )
             _bulk_delete_insert(session, Experience, user_id, exp_rows)
@@ -132,4 +136,3 @@ def save_full_profile(user_id: int, payload: FullProfileIn) -> FullProfileOut:
                 profile_step=profile.profile_step or 0,
                 is_submitted=1 if profile.is_submitted else 0,
             )
-

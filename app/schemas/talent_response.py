@@ -68,6 +68,7 @@ class TalentExperienceListResponse(_BaseResponse):
                     "title": "Backend Engineer",
                     "start_ym": "2022-01-01",
                     "end_ym": None,
+                    "duration_years": 3,
                     "leave_reason": None,
                     "summary": "FitConnect 플랫폼 백엔드 개발",
                     "created_at": "2025-01-18T10:20:00",
