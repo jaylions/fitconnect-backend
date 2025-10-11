@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 import sqlalchemy as sa
 from sqlalchemy import BigInteger, Date, DateTime, ForeignKey, SmallInteger, Text, func
 from sqlalchemy.dialects.mysql import JSON as MySQLJSON
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:  # pragma: no cover
+    from app.models.job_posting_card import JobPostingCard
 
 
 EmploymentTypeEnum = sa.Enum(
@@ -84,6 +87,12 @@ class JobPosting(TimestampMixin, Base):
         sa.Index("ix_job_postings_company_status", "company_id", "status"),
         sa.Index("ix_job_postings_status", "status"),
         sa.Index("ix_job_postings_deadline_date", "deadline_date"),
+    )
+
+    card: Mapped[Optional["JobPostingCard"]] = relationship(
+        "JobPostingCard",
+        back_populates="job_posting",
+        uselist=False,
     )
 
     def __repr__(self) -> str:  # pragma: no cover - debugging aid
