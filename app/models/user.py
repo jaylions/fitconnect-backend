@@ -1,10 +1,13 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import BigInteger, DateTime, Enum, String, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:  # pragma: no cover
+    from app.models.talent_card import TalentCard
 
 
 class User(Base):
@@ -23,3 +26,8 @@ class User(Base):
     )
     deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
+    talent_card: Mapped[Optional["TalentCard"]] = relationship(
+        "TalentCard",
+        back_populates="user",
+        uselist=False,
+    )

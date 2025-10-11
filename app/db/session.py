@@ -16,4 +16,12 @@ DB_URL = URL.create(
 )
 
 engine = create_engine(DB_URL, pool_pre_ping=True, future=True)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
+# Avoid expiring attributes on commit so ORM instances can be safely
+# accessed after the transaction (e.g., when serializing in FastAPI).
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+    expire_on_commit=False,
+    future=True,
+)

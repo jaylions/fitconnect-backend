@@ -59,3 +59,42 @@ def list_mine(db: Session, owner_user_id: int, status_filter: str | None = None)
 
     postings = job_posting_repo.list_by_company(db, company_id=company.id, status=status_filter)
     return postings
+
+
+def update(db: Session, owner_user_id: int, posting_id: int, payload: dict):
+    # Ensure company exists for user
+    company = company_repo.get_by_owner(db, owner_user_id)
+    if company is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"code": "COMPANY_NOT_FOUND", "message": "Company not found"})
+
+    # Fetch posting
+    posting = job_posting_repo.get_by_id_and_company(db, posting_id=posting_id, company_id=company.id)
+    if posting is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"})
+
+    # Validate enums when present
+    et = payload.get("employment_type")
+    if et is not None and et not in ALLOWED_EMPLOYMENT:
+        raise _val_error("employment_type invalid")
+
+    st = payload.get("status")
+    if st is not None and st not in ALLOWED_STATUS:
+        raise _val_error("status invalid")
+
+    posting = job_posting_repo.update_partial(db, posting, data=payload)
+    return posting
+
+
+def delete(db: Session, owner_user_id: int, posting_id: int):
+    # Ensure company exists for user
+    company = company_repo.get_by_owner(db, owner_user_id)
+    if company is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"code": "COMPANY_NOT_FOUND", "message": "Company not found"})
+
+    # Fetch posting
+    posting = job_posting_repo.get_by_id_and_company(db, posting_id=posting_id, company_id=company.id)
+    if posting is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"})
+
+    posting = job_posting_repo.soft_delete(db, posting)
+    return posting

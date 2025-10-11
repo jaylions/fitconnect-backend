@@ -1,0 +1,61 @@
+from __future__ import annotations
+
+from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.api.deps import get_db
+from app.models.job_posting import JobPosting
+from app.models.job_posting_card import JobPostingCard
+from app.schemas.job_posting_card import JobPostingCardCreate, JobPostingCardResponse
+
+
+router = APIRouter(prefix="/api/job_posting_cards", tags=["JobPostingCard"])
+
+
+@router.post("/", status_code=status.HTTP_201_CREATED)
+def create_job_posting_card(payload: JobPostingCardCreate, db: Session = Depends(get_db)):
+    job_posting = db.get(JobPosting, payload.job_posting_id)
+    if job_posting is None:
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content={
+                "ok": False,
+                "error": {"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"},
+            },
+        )
+
+    existing = db.scalar(
+        select(JobPostingCard).where(JobPostingCard.job_posting_id == payload.job_posting_id)
+    )
+    if existing is not None:
+        return JSONResponse(
+            status_code=status.HTTP_409_CONFLICT,
+            content={
+                "ok": False,
+                "error": {"code": "CARD_EXISTS", "message": "Job posting already has a card"},
+            },
+        )
+
+    card = JobPostingCard(**payload.model_dump())
+    with db.begin():
+        db.add(card)
+
+    response = JobPostingCardResponse.model_validate(card)
+    return {"ok": True, "data": response.model_dump(mode="json")}
+
+
+@router.get("/{job_posting_id}")
+def get_job_posting_card(job_posting_id: int, db: Session = Depends(get_db)):
+    card = db.scalar(
+        select(JobPostingCard).where(JobPostingCard.job_posting_id == job_posting_id)
+    )
+    if card is None:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={"ok": False, "error": {"code": "NOT_FOUND", "message": "Card not found"}},
+        )
+
+    response = JobPostingCardResponse.model_validate(card)
+    return {"ok": True, "data": response.model_dump(mode="json")}

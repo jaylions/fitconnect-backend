@@ -23,6 +23,26 @@ from app.services.talent_read import (
     list_educations,
     list_experiences,
 )
+from app.services import talent_write
+from app.schemas.talent_write import (
+    EducationCreateIn,
+    EducationUpdateIn,
+    ExperienceCreateIn,
+    ExperienceUpdateIn,
+    ActivityCreateIn,
+    ActivityUpdateIn,
+    CertificationCreateIn,
+    CertificationUpdateIn,
+    DocumentCreateIn,
+    DocumentUpdateIn,
+)
+from app.schemas.talent_read import (
+    EducationOut,
+    ExperienceOut,
+    ActivityOut,
+    CertificationOut,
+    DocumentOut,
+)
 
 
 router = APIRouter(prefix="/api/me/talent", tags=["talent"])
@@ -95,3 +115,155 @@ def read_documents(user=Depends(get_current_user)) -> TalentDocumentListResponse
     documents = list_documents(int(user["id"]))
     return TalentDocumentListResponse(data=documents)
 
+
+# Individual write APIs
+
+
+@router.post("/educations")
+def create_education(body: EducationCreateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.create_education(int(user["id"]), body.model_dump())
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_422_UNPROCESSABLE_ENTITY,):
+            return JSONResponse(status_code=422, content={"ok": False, "error": e.detail})
+        raise
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"ok": True, "data": EducationOut.model_validate(row, from_attributes=True).model_dump()})
+
+
+@router.patch("/educations/{education_id}")
+def update_education(education_id: int, body: EducationUpdateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.update_education(int(user["id"]), education_id, body.model_dump(exclude_unset=True))
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN, status.HTTP_422_UNPROCESSABLE_ENTITY):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": EducationOut.model_validate(row, from_attributes=True).model_dump()}
+
+
+@router.delete("/educations/{education_id}")
+def delete_education(education_id: int, user=Depends(get_current_user)):
+    try:
+        row = talent_write.delete_education(int(user["id"]), education_id)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
+
+
+@router.post("/experiences")
+def create_experience(body: ExperienceCreateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.create_experience(int(user["id"]), body.model_dump())
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_422_UNPROCESSABLE_ENTITY,):
+            return JSONResponse(status_code=422, content={"ok": False, "error": e.detail})
+        raise
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"ok": True, "data": ExperienceOut.model_validate(row, from_attributes=True).model_dump()})
+
+
+@router.patch("/experiences/{experience_id}")
+def update_experience(experience_id: int, body: ExperienceUpdateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.update_experience(int(user["id"]), experience_id, body.model_dump(exclude_unset=True))
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN, status.HTTP_422_UNPROCESSABLE_ENTITY):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": ExperienceOut.model_validate(row, from_attributes=True).model_dump()}
+
+
+@router.delete("/experiences/{experience_id}")
+def delete_experience(experience_id: int, user=Depends(get_current_user)):
+    try:
+        row = talent_write.delete_experience(int(user["id"]), experience_id)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
+
+
+@router.post("/activities")
+def create_activity(body: ActivityCreateIn, user=Depends(get_current_user)):
+    row = talent_write.create_activity(int(user["id"]), body.model_dump())
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"ok": True, "data": ActivityOut.model_validate(row, from_attributes=True).model_dump()})
+
+
+@router.patch("/activities/{activity_id}")
+def update_activity(activity_id: int, body: ActivityUpdateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.update_activity(int(user["id"]), activity_id, body.model_dump(exclude_unset=True))
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": ActivityOut.model_validate(row, from_attributes=True).model_dump()}
+
+
+@router.delete("/activities/{activity_id}")
+def delete_activity(activity_id: int, user=Depends(get_current_user)):
+    try:
+        row = talent_write.delete_activity(int(user["id"]), activity_id)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
+
+
+@router.post("/certifications")
+def create_certification(body: CertificationCreateIn, user=Depends(get_current_user)):
+    row = talent_write.create_certification(int(user["id"]), body.model_dump())
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"ok": True, "data": CertificationOut.model_validate(row, from_attributes=True).model_dump()})
+
+
+@router.patch("/certifications/{certification_id}")
+def update_certification(certification_id: int, body: CertificationUpdateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.update_certification(int(user["id"]), certification_id, body.model_dump(exclude_unset=True))
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": CertificationOut.model_validate(row, from_attributes=True).model_dump()}
+
+
+@router.delete("/certifications/{certification_id}")
+def delete_certification(certification_id: int, user=Depends(get_current_user)):
+    try:
+        row = talent_write.delete_certification(int(user["id"]), certification_id)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
+
+
+@router.post("/documents")
+def create_document(body: DocumentCreateIn, user=Depends(get_current_user)):
+    row = talent_write.create_document(int(user["id"]), body.model_dump())
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content={"ok": True, "data": DocumentOut.model_validate(row, from_attributes=True).model_dump()})
+
+
+@router.patch("/documents/{document_id}")
+def update_document(document_id: int, body: DocumentUpdateIn, user=Depends(get_current_user)):
+    try:
+        row = talent_write.update_document(int(user["id"]), document_id, body.model_dump(exclude_unset=True))
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": DocumentOut.model_validate(row, from_attributes=True).model_dump()}
+
+
+@router.delete("/documents/{document_id}")
+def delete_document(document_id: int, user=Depends(get_current_user)):
+    try:
+        row = talent_write.delete_document(int(user["id"]), document_id)
+    except HTTPException as e:
+        if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_403_FORBIDDEN):
+            return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
+        raise
+    return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
