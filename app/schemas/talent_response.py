@@ -143,6 +143,10 @@ class TalentFullData(BaseModel):
     basic: TalentBasicOut | None = None
     educations: list[EducationOut] = Field(default_factory=list)
     experiences: list[ExperienceOut] = Field(default_factory=list)
+    experience_total_years: int = Field(
+        default=0,
+        json_schema_extra={"example": 5},
+    )
     activities: list[ActivityOut] = Field(default_factory=list)
     certifications: list[CertificationOut] = Field(default_factory=list)
     documents: list[DocumentOut] = Field(default_factory=list)
@@ -156,6 +160,7 @@ class TalentFullResponse(_BaseResponse):
                 "basic": TalentBasicResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
                 "educations": TalentEducationListResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
                 "experiences": TalentExperienceListResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
+                "experience_total_years": TalentFullData.model_fields["experience_total_years"].json_schema_extra["example"],  # type: ignore[index]
                 "activities": TalentActivityListResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
                 "certifications": TalentCertificationListResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
                 "documents": TalentDocumentListResponse.model_fields["data"].json_schema_extra["example"],  # type: ignore[index]
