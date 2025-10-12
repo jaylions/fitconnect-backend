@@ -27,6 +27,7 @@ from app.models import experience as _experience  # noqa: F401
 from app.models import activity as _activity  # noqa: F401
 from app.models import certification as _certification  # noqa: F401
 from app.models import document as _document  # noqa: F401
+from app.models import matching_vector as _matching_vector  # noqa: F401
 
 target_metadata = Base.metadata
 
@@ -72,4 +73,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-

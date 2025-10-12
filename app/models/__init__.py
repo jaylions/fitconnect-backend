@@ -12,5 +12,6 @@ from . import company  # noqa: F401
 from . import job_posting  # noqa: F401
 from . import job_posting_card  # noqa: F401
 from . import talent_card  # noqa: F401
+from . import matching_vector  # noqa: F401
 
 metadata = Base.metadata
