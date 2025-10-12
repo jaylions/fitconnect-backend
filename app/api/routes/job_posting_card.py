@@ -27,8 +27,9 @@ def create_job_posting_card(payload: JobPostingCardCreate, db: Session = Depends
         )
 
     card = JobPostingCard(**payload.model_dump())
-    with db.begin():
-        db.add(card)
+    db.add(card)
+    db.commit()
+    db.refresh(card)
 
     response = JobPostingCardResponse.model_validate(card)
     return {"ok": True, "data": response.model_dump(mode="json")}
