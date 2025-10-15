@@ -15,6 +15,7 @@ from typing import Any
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy import inspect
 from sqlalchemy.dialects import mysql
 from sqlalchemy.engine import Connection
 from sqlalchemy.engine.reflection import Inspector
@@ -30,7 +31,7 @@ DEFAULT_DIM = 1536
 
 
 def _get_inspector(connection: Connection) -> Inspector:
-    inspector = sa.inspect(connection)
+    inspector = inspect(connection)
     info_cache = getattr(inspector, "info_cache", None)
     if isinstance(info_cache, dict):
         info_cache.clear()
@@ -49,11 +50,15 @@ def _column_exists(inspector: Inspector, table_name: str, column_name: str) -> b
 
 
 def _view_exists(connection: Connection, view_name: str) -> bool:
-    stmt = sa.text(
-        "SELECT COUNT(*) FROM information_schema.VIEWS "
-        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name"
-    )
-    return bool(connection.execute(stmt, {"name": view_name}).scalar() or 0)
+    inspector = _get_inspector(connection)
+    schema = inspector.default_schema_name or None
+    try:
+        view_names = inspector.get_view_names(schema=schema)
+    except TypeError:
+        view_names = inspector.get_view_names()
+    except NotImplementedError:
+        view_names = inspector.get_view_names()
+    return view_name in set(view_names)
 
 
 def _json_type(connection: Connection) -> sa.types.TypeEngine[Any]:
@@ -260,6 +265,7 @@ def upgrade() -> None:
     connection = op.get_bind()
     inspector = _get_inspector(connection)
     json_type = _json_type(connection)
+    json_constructor = "JSON_OBJECT" if connection.dialect.name == "mysql" else "json_build_object"
 
     if not _table_exists(inspector, "talent_embeddings"):
         op.create_table(
@@ -322,11 +328,11 @@ def upgrade() -> None:
     if _table_exists(inspector, "talent_embeddings") and not _view_exists(connection, "talent_matching_vector_view"):
         op.execute(
             sa.text(
-                """
+                f"""
                 CREATE VIEW talent_matching_vector_view AS
                 SELECT
                     tp.user_id AS talent_id,
-                    JSON_OBJECT(
+                    {json_constructor}(
                         'roles', te.vector_roles,
                         'skills', te.vector_skills,
                         'growth', te.vector_growth,
@@ -345,11 +351,11 @@ def upgrade() -> None:
     if _table_exists(inspector, "job_embeddings") and not _view_exists(connection, "job_matching_vector_view"):
         op.execute(
             sa.text(
-                """
+                f"""
                 CREATE VIEW job_matching_vector_view AS
                 SELECT
                     jp.id AS job_id,
-                    JSON_OBJECT(
+                    {json_constructor}(
                         'roles', je.vector_roles,
                         'skills', je.vector_skills,
                         'growth', je.vector_growth,
