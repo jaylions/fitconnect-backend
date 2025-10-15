@@ -39,7 +39,7 @@ def create_matching_vector(
     payload_dict = payload.model_dump(exclude={"role"}, exclude_unset=True)
     try:
         with db.begin():
-            row = matching_vector_service.create(
+            record, meta = matching_vector_service.create(
                 db,
                 user_id=int(user["id"]),
                 role=payload.role,
@@ -53,10 +53,10 @@ def create_matching_vector(
             return _error_response(exc)
         raise
 
-    return JSONResponse(
-        status_code=status.HTTP_201_CREATED,
-        content={"ok": True, "data": _serialize(row)},
-    )
+    response_content = {"ok": True, "data": _serialize(record)}
+    if meta:
+        response_content["meta"] = meta
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=response_content)
 
 
 @router.patch("/{matching_vector_id}")
@@ -69,9 +69,10 @@ def update_matching_vector(
     payload_dict = payload.model_dump(exclude_unset=True)
     try:
         with db.begin():
-            row = matching_vector_service.update(
+            record, meta = matching_vector_service.update(
                 db,
                 user_id=int(user["id"]),
+                role=user["role"],
                 matching_vector_id=matching_vector_id,
                 payload=payload_dict,
             )
@@ -84,7 +85,10 @@ def update_matching_vector(
             return _error_response(exc)
         raise
 
-    return {"ok": True, "data": _serialize(row)}
+    response = {"ok": True, "data": _serialize(record)}
+    if meta:
+        response["meta"] = meta
+    return response
 
 
 @router.delete("/{matching_vector_id}")
@@ -95,9 +99,10 @@ def delete_matching_vector(
 ):
     try:
         with db.begin():
-            row = matching_vector_service.delete(
+            record, meta = matching_vector_service.delete(
                 db,
                 user_id=int(user["id"]),
+                role=user["role"],
                 matching_vector_id=matching_vector_id,
             )
     except HTTPException as exc:
@@ -108,4 +113,7 @@ def delete_matching_vector(
             return _error_response(exc)
         raise
 
-    return {"ok": True, "data": {"id": row.id, "role": row.role}}
+    response = {"ok": True, "data": {"id": record["id"], "role": record["role"]}}
+    if meta:
+        response["meta"] = meta
+    return response

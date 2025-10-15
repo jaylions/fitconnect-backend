@@ -8,7 +8,6 @@ from app.db.base import Base
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.talent_card import TalentCard
-    from app.models.matching_vector import MatchingVector
 
 
 class User(Base):
@@ -31,9 +30,4 @@ class User(Base):
         "TalentCard",
         back_populates="user",
         uselist=False,
-    )
-    matching_vectors: Mapped[list["MatchingVector"]] = relationship(
-        "MatchingVector",
-        back_populates="user",
-        cascade="all, delete-orphan",
     )

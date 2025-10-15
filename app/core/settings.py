@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
 
+    MATCHING_ENABLED: bool = True
+    MATCHING_SYNC_ENABLED: bool = True
+
     class Config:
         env_file = ".env"
 
