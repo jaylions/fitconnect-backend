@@ -9,20 +9,15 @@ from sqlalchemy.dialects.mysql import JSON as MySQLJSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+from app.models import enums as enums_model
+
+# SQLAlchemy Enum types derived from Python Enum classes defined in app.models.enums
+EmploymentTypeEnum = sa.Enum(*[e.name for e in enums_model.EmploymentTypeEnum], name="employment_type")
+LocationEnum = sa.Enum(*[e.name for e in enums_model.LocationEnum], name="location_enum")
+SalaryRangeEnum = sa.Enum(*[e.name for e in enums_model.SalaryRangeEnum], name="salary_range")
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.job_posting_card import JobPostingCard
-
-
-EmploymentTypeEnum = sa.Enum(
-    "FULL_TIME",
-    "PART_TIME",
-    "CONTRACT",
-    "INTERN",
-    "TEMP",
-    "OTHER",
-    name="employment_type",
-)
 
 
 JobPostingStatusEnum = sa.Enum(
@@ -56,7 +51,8 @@ class JobPosting(TimestampMixin, Base):
     position: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     department: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     employment_type: Mapped[str] = mapped_column(EmploymentTypeEnum, nullable=False)
-    location_city: Mapped[str] = mapped_column(Text, nullable=False)
+    # store location as enum (uses names like SEOUL, GYEONGGI etc.)
+    location_city: Mapped[str] = mapped_column(LocationEnum, nullable=False)
     career_level: Mapped[str] = mapped_column(Text, nullable=False)
     education_level: Mapped[str] = mapped_column(Text, nullable=False)
 
@@ -67,11 +63,14 @@ class JobPosting(TimestampMixin, Base):
     contact_email: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     contact_phone: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
+    # Keep existing free-form salary_band for backward compatibility
     salary_band: Mapped[Optional[dict]] = mapped_column(MySQLJSON, nullable=True)
+    # New enum-based salary range column (e.g., RANGE_70_80)
+    salary_range: Mapped[Optional[str]] = mapped_column(SalaryRangeEnum, nullable=True)
     responsibilities: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     requirements_must: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     requirements_nice: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    competencies: Mapped[Optional[list[str]]] = mapped_column(MySQLJSON, nullable=True)
+    competencies: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     jd_file_id: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     extra_file_id: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

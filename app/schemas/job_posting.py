@@ -15,6 +15,39 @@ EmploymentType = Literal[
     "OTHER",
 ]
 
+LocationType = Literal[
+    "SEOUL",
+    "GYEONGGI",
+    "INCHEON",
+    "BUSAN",
+    "DAEGU",
+    "DAEJEON",
+    "GWANGJU",
+    "ULSAN",
+    "GANGWON",
+    "CHUNGBUK",
+    "CHUNGNAM",
+    "JEONBUK",
+    "JEONNAM",
+    "GYEONGBUK",
+    "GYEONGNAM",
+]
+
+SalaryRange = Literal[
+    "NEGOTIABLE",
+    "RANGE_20_30",
+    "RANGE_30_40",
+    "RANGE_40_50",
+    "RANGE_50_60",
+    "RANGE_60_70",
+    "RANGE_70_80",
+    "RANGE_80_90",
+    "RANGE_90_100",
+    "RANGE_100_120",
+    "RANGE_120_150",
+    "OVER_150",
+]
+
 PostingStatus = Literal["DRAFT", "PUBLISHED", "CLOSED", "ARCHIVED"]
 
 
@@ -22,7 +55,8 @@ class JobPostingCreateIn(BaseModel):
     # Required
     title: str = Field(min_length=1)
     employment_type: EmploymentType
-    location_city: str = Field(min_length=1)
+    # Use enum names for location (e.g., "SEOUL", "GYEONGGI")
+    location_city: LocationType
     career_level: str = Field(min_length=1)
     education_level: str = Field(min_length=1)
 
@@ -42,10 +76,12 @@ class JobPostingCreateIn(BaseModel):
 
     # Details
     salary_band: Optional[dict] = None
+    # Optional enum-based salary range (use names like "RANGE_70_80" or "NEGOTIABLE")
+    salary_range: Optional[SalaryRange] = None
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
     requirements_nice: Optional[str] = None
-    competencies: Optional[list[str]] = None
+    competencies: Optional[str] = None
 
     # Files
     jd_file_id: Optional[str] = None
@@ -74,7 +110,7 @@ class JobPostingCreateIn(BaseModel):
             "responsibilities": "- 서비스 API 개발 및 운영\n- 성능 최적화",
             "requirements_must": "- Python, FastAPI 실무 경험\n- RDBMS 설계 경험",
             "requirements_nice": "- AWS, Docker 경험",
-            "competencies": ["Python", "FastAPI", "MySQL"],
+            "competencies": "Python, FastAPI, MySQL",
             "jd_file_id": "file_abc123",
             "extra_file_id": "file_xyz789",
             "status": "DRAFT"
@@ -93,6 +129,7 @@ class JobPostingOut(BaseModel):
     department: Optional[str] = None
     employment_type: str
     location_city: str
+    salary_range: Optional[str] = None
     career_level: str
     education_level: str
     start_date: Optional[date] = None
@@ -105,7 +142,7 @@ class JobPostingOut(BaseModel):
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
     requirements_nice: Optional[str] = None
-    competencies: Optional[list[str]] = None
+    competencies: Optional[str] = None
     status: str
     jd_file_id: Optional[str] = None
     extra_file_id: Optional[str] = None
