@@ -24,6 +24,7 @@ def _parse_ym_or_date(v: Optional[str | date]) -> Optional[date]:
 
 class BasicProfile(BaseModel):
     name: str
+    email: Optional[str] = None
     birth_date: Optional[date] = None
     phone: Optional[str] = None
     tagline: Optional[str] = None
@@ -105,5 +106,6 @@ class FullProfileIn(BaseModel):
 
 class FullProfileOut(BaseModel):
     user_id: int
+    email: str
     profile_step: int
     is_submitted: int

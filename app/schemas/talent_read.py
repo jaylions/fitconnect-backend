@@ -13,6 +13,7 @@ class _OrmBase(BaseModel):
 class TalentBasicOut(_OrmBase):
     user_id: int
     name: Optional[str] = None
+    email: Optional[str] = None
     birth_date: Optional[date] = None
     phone: Optional[str] = None
     tagline: Optional[str] = None
@@ -38,7 +39,7 @@ class ExperienceOut(_OrmBase):
     id: int
     user_id: int
     company_name: str
-    title: str
+    title: Optional[str] = None
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
     duration_years: Optional[int] = None
