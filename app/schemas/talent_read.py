@@ -13,6 +13,7 @@ class _OrmBase(BaseModel):
 class TalentBasicOut(_OrmBase):
     user_id: int
     name: Optional[str] = None
+    email: Optional[str] = None
     birth_date: Optional[date] = None
     phone: Optional[str] = None
     tagline: Optional[str] = None

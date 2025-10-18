@@ -14,6 +14,7 @@ class TalentProfile(Base):
         BigInteger, ForeignKey("users.id"), primary_key=True
     )
     name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     birth_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     phone: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     tagline: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)

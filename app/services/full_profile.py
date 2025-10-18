@@ -12,6 +12,7 @@ from app.models.document import Document
 from app.models.education import Education
 from app.models.experience import Experience
 from app.models.profile import TalentProfile
+from app.models.user import User
 from app.schemas.full_profile import FullProfileIn, FullProfileOut
 
 
@@ -39,6 +40,7 @@ def save_full_profile(user_id: int, payload: FullProfileIn) -> FullProfileOut:
                 session.add(profile)
 
             profile.name = payload.basic.name
+            profile.email = payload.basic.email
             profile.birth_date = payload.basic.birth_date
             profile.phone = payload.basic.phone
             profile.tagline = payload.basic.tagline

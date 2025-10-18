@@ -16,56 +16,48 @@
 {
   "basic": {
     "name": "김민수",
-    "phone": "010-1234-5001",
     "email": "minsu.kim@example.com",
     "birth_date": "1995-03-15",
-    "gender": "male",
-    "address": "서울시 강남구",
-    "job_search_status": "적극적으로 구직 중",
-    "desired_position": "Frontend Developer",
-    "desired_salary": 70000000,
-    "available_start_date": "2025-11-01"
+    "phone": "010-1234-5001",
+    "tagline": "React 전문 Frontend Developer",
+    "is_submitted": false
   },
   "educations": [
     {
-      "institution_name": "서울대학교",
+      "school_name": "서울대학교",
       "major": "컴퓨터공학",
-      "degree": "학사",
       "status": "졸업",
-      "start_date": "2014-03-01",
-      "end_date": "2018-02-28",
-      "gpa": 3.8,
-      "gpa_scale": 4.5
+      "start_ym": "2014-03",
+      "end_ym": "2018-02"
     }
   ],
   "experiences": [
     {
       "company_name": "네이버",
-      "position": "Frontend Engineer",
-      "start_date": "2018-03-01",
-      "end_date": "2023-08-31",
-      "is_current": false,
-      "duration_years": 5,
-      "description": "React 기반 웹 서비스 개발 및 성능 최적화"
+      "title": "Frontend Engineer",
+      "start_ym": "2018-03",
+      "end_ym": "2023-08",
+      "leave_reason": "이직",
+      "summary": "React 기반 웹 서비스 개발 및 성능 최적화. 월간 활성 사용자 500만 서비스 개발 및 유지보수"
     }
   ],
   "activities": [
     {
-      "activity_type": "project",
-      "title": "오픈소스 기여",
-      "organization": "React Community",
-      "start_date": "2020-01-01",
-      "end_date": "2023-12-31",
-      "description": "React 관련 오픈소스 프로젝트 기여 및 유지보수"
+      "name": "React 오픈소스 기여",
+      "category": "오픈소스",
+      "period_ym": "2020-01",
+      "description": "React 관련 오픈소스 프로젝트 기여 및 유지보수, 커뮤니티 활동"
     }
   ],
   "certifications": [
     {
       "name": "정보처리기사",
-      "issuer": "한국산업인력공단",
-      "issue_date": "2017-11-15"
+      "score_or_grade": "합격",
+      "acquired_ym": "2017-11"
     }
-  ]
+  ],
+  "documents": [],
+  "submit": true
 }
 ```
 
@@ -91,56 +83,48 @@
 {
   "basic": {
     "name": "박지현",
-    "phone": "010-1234-5002",
     "email": "jihyun.park@example.com",
     "birth_date": "1993-07-22",
-    "gender": "female",
-    "address": "서울시 서초구",
-    "job_search_status": "이직 고려 중",
-    "desired_position": "Backend Developer",
-    "desired_salary": 85000000,
-    "available_start_date": "2025-12-01"
+    "phone": "010-1234-5002",
+    "tagline": "Java/Spring 전문 Backend Developer",
+    "is_submitted": false
   },
   "educations": [
     {
-      "institution_name": "KAIST",
+      "school_name": "KAIST",
       "major": "전산학부",
-      "degree": "석사",
       "status": "졸업",
-      "start_date": "2016-03-01",
-      "end_date": "2018-02-28",
-      "gpa": 4.0,
-      "gpa_scale": 4.3
+      "start_ym": "2016-03",
+      "end_ym": "2018-02"
     }
   ],
   "experiences": [
     {
       "company_name": "카카오",
-      "position": "Backend Engineer",
-      "start_date": "2018-03-01",
-      "end_date": "2024-09-30",
-      "is_current": false,
-      "duration_years": 6,
-      "description": "Java/Spring 기반 대규모 트래픽 처리 시스템 설계 및 구축"
+      "title": "Backend Engineer",
+      "start_ym": "2018-03",
+      "end_ym": "2024-09",
+      "leave_reason": "커리어 성장",
+      "summary": "Java/Spring 기반 대규모 트래픽 처리 시스템 설계 및 구축. 일 평균 1억 건 이상 요청 처리"
     }
   ],
   "activities": [
     {
-      "activity_type": "conference",
-      "title": "Spring One 참석",
-      "organization": "VMware",
-      "start_date": "2023-08-01",
-      "end_date": "2023-08-03",
-      "description": "Spring Framework 최신 트렌드 학습"
+      "name": "Spring One 2023 참석",
+      "category": "컨퍼런스",
+      "period_ym": "2023-08",
+      "description": "Spring Framework 최신 트렌드 학습 및 네트워킹"
     }
   ],
   "certifications": [
     {
-      "name": "AWS Solutions Architect",
-      "issuer": "Amazon",
-      "issue_date": "2022-06-15"
+      "name": "AWS Solutions Architect - Professional",
+      "score_or_grade": "합격",
+      "acquired_ym": "2022-06"
     }
-  ]
+  ],
+  "documents": [],
+  "submit": true
 }
 ```
 
@@ -166,56 +150,48 @@
 {
   "basic": {
     "name": "이서연",
-    "phone": "010-1234-5003",
     "email": "seoyeon.lee@example.com",
     "birth_date": "1996-11-08",
-    "gender": "female",
-    "address": "서울시 마포구",
-    "job_search_status": "적극적으로 구직 중",
-    "desired_position": "Digital Marketer",
-    "desired_salary": 55000000,
-    "available_start_date": "2025-11-15"
+    "phone": "010-1234-5003",
+    "tagline": "데이터 기반 Performance Marketer",
+    "is_submitted": false
   },
   "educations": [
     {
-      "institution_name": "연세대학교",
+      "school_name": "연세대학교",
       "major": "경영학",
-      "degree": "학사",
       "status": "졸업",
-      "start_date": "2015-03-01",
-      "end_date": "2019-02-28",
-      "gpa": 3.9,
-      "gpa_scale": 4.5
+      "start_ym": "2015-03",
+      "end_ym": "2019-02"
     }
   ],
   "experiences": [
     {
       "company_name": "쿠팡",
-      "position": "Performance Marketer",
-      "start_date": "2019-03-01",
-      "end_date": "2024-08-31",
-      "is_current": false,
-      "duration_years": 5,
-      "description": "디지털 광고 캠페인 기획 및 성과 분석, ROI 200% 달성"
+      "title": "Performance Marketer",
+      "start_ym": "2019-03",
+      "end_ym": "2024-08",
+      "leave_reason": "새로운 도전",
+      "summary": "디지털 광고 캠페인 기획 및 성과 분석. ROI 200% 달성, 연간 광고비 30억 관리"
     }
   ],
   "activities": [
     {
-      "activity_type": "award",
-      "title": "우수 마케터 상",
-      "organization": "한국마케팅협회",
-      "start_date": "2023-12-01",
-      "end_date": "2023-12-01",
-      "description": "혁신적인 디지털 마케팅 캠페인으로 수상"
+      "name": "우수 마케터 상 수상",
+      "category": "수상",
+      "period_ym": "2023-12",
+      "description": "한국마케팅협회 주관, 혁신적인 디지털 마케팅 캠페인으로 수상"
     }
   ],
   "certifications": [
     {
       "name": "Google Ads 인증",
-      "issuer": "Google",
-      "issue_date": "2021-03-20"
+      "score_or_grade": "Professional",
+      "acquired_ym": "2021-03"
     }
-  ]
+  ],
+  "documents": [],
+  "submit": true
 }
 ```
 
@@ -241,66 +217,55 @@
 {
   "basic": {
     "name": "최동욱",
-    "phone": "010-1234-5004",
     "email": "dongwook.choi@example.com",
     "birth_date": "1992-05-14",
-    "gender": "male",
-    "address": "서울시 강남구",
-    "job_search_status": "이직 고려 중",
-    "desired_position": "Product Manager",
-    "desired_salary": 90000000,
-    "available_start_date": "2026-01-01"
+    "phone": "010-1234-5004",
+    "tagline": "0→1 제품 경험 보유 Senior PM",
+    "is_submitted": false
   },
   "educations": [
     {
-      "institution_name": "고려대학교",
+      "school_name": "고려대학교",
       "major": "경영학",
-      "degree": "학사",
       "status": "졸업",
-      "start_date": "2011-03-01",
-      "end_date": "2015-02-28",
-      "gpa": 3.7,
-      "gpa_scale": 4.5
+      "start_ym": "2011-03",
+      "end_ym": "2015-02"
     },
     {
-      "institution_name": "Stanford University",
+      "school_name": "Stanford University",
       "major": "MBA",
-      "degree": "석사",
       "status": "졸업",
-      "start_date": "2015-09-01",
-      "end_date": "2017-06-30",
-      "gpa": 3.9,
-      "gpa_scale": 4.0
+      "start_ym": "2015-09",
+      "end_ym": "2017-06"
     }
   ],
   "experiences": [
     {
       "company_name": "토스",
-      "position": "Senior Product Manager",
-      "start_date": "2017-07-01",
-      "end_date": "2024-10-15",
-      "is_current": false,
-      "duration_years": 7,
-      "description": "금융 플랫폼 신규 서비스 기획 및 런칭, MAU 500만 달성"
+      "title": "Senior Product Manager",
+      "start_ym": "2017-07",
+      "end_ym": "2024-10",
+      "leave_reason": "새로운 도전",
+      "summary": "금융 플랫폼 신규 서비스 기획 및 런칭. MAU 500만 달성, 연 거래액 10조 달성"
     }
   ],
   "activities": [
     {
-      "activity_type": "project",
-      "title": "핀테크 스타트업 자문",
-      "organization": "Various Startups",
-      "start_date": "2022-01-01",
-      "end_date": "2024-06-30",
-      "description": "핀테크 스타트업 제품 전략 자문"
+      "name": "핀테크 스타트업 자문",
+      "category": "자문",
+      "period_ym": "2022-01",
+      "description": "5개 핀테크 스타트업 제품 전략 및 그로스 자문 활동"
     }
   ],
   "certifications": [
     {
-      "name": "Certified Scrum Product Owner",
-      "issuer": "Scrum Alliance",
-      "issue_date": "2019-08-10"
+      "name": "Certified Scrum Product Owner (CSPO)",
+      "score_or_grade": "Certified",
+      "acquired_ym": "2019-08"
     }
-  ]
+  ],
+  "documents": [],
+  "submit": true
 }
 ```
 
@@ -326,56 +291,48 @@
 {
   "basic": {
     "name": "정수진",
-    "phone": "010-1234-5005",
     "email": "sujin.jung@example.com",
     "birth_date": "1994-09-30",
-    "gender": "female",
-    "address": "서울시 송파구",
-    "job_search_status": "적극적으로 구직 중",
-    "desired_position": "Sales Manager",
-    "desired_salary": 65000000,
-    "available_start_date": "2025-11-20"
+    "phone": "010-1234-5005",
+    "tagline": "글로벌 B2B 영업 전문가",
+    "is_submitted": false
   },
   "educations": [
     {
-      "institution_name": "이화여자대학교",
+      "school_name": "이화여자대학교",
       "major": "국제사무학",
-      "degree": "학사",
       "status": "졸업",
-      "start_date": "2013-03-01",
-      "end_date": "2017-02-28",
-      "gpa": 3.8,
-      "gpa_scale": 4.5
+      "start_ym": "2013-03",
+      "end_ym": "2017-02"
     }
   ],
   "experiences": [
     {
       "company_name": "삼성전자",
-      "position": "B2B Sales Manager",
-      "start_date": "2017-03-01",
-      "end_date": "2024-09-30",
-      "is_current": false,
-      "duration_years": 7,
-      "description": "글로벌 기업 대상 솔루션 영업, 연 매출 100억 달성"
+      "title": "B2B Sales Manager",
+      "start_ym": "2017-03",
+      "end_ym": "2024-09",
+      "leave_reason": "커리어 도약",
+      "summary": "글로벌 기업 대상 솔루션 영업. 연 매출 100억 달성, 주요 고객 30개사 관리"
     }
   ],
   "activities": [
     {
-      "activity_type": "award",
-      "title": "올해의 영업사원",
-      "organization": "삼성전자",
-      "start_date": "2023-01-15",
-      "end_date": "2023-01-15",
-      "description": "최고 매출 실적 달성으로 수상"
+      "name": "올해의 영업사원 수상",
+      "category": "수상",
+      "period_ym": "2023-01",
+      "description": "삼성전자 최고 매출 실적 달성으로 사내 우수 영업사원 선정"
     }
   ],
   "certifications": [
     {
-      "name": "세일즈포스 인증",
-      "issuer": "Salesforce",
-      "issue_date": "2020-11-10"
+      "name": "Salesforce Certified Administrator",
+      "score_or_grade": "Certified",
+      "acquired_ym": "2020-11"
     }
-  ]
+  ],
+  "documents": [],
+  "submit": true
 }
 ```
 
@@ -404,7 +361,7 @@
   "basic": {
     "name": "퓨처테크",
     "industry": "IT/소프트웨어",
-    "size": "SERIES_A",
+    "size": "50 ~ 100명",
     "location_city": "서울시 강남구",
     "homepage_url": "https://futuretech.example.com",
     "career_page_url": "https://futuretech.example.com/careers",
@@ -416,7 +373,8 @@
     "ideal_talent": "빠르게 성장하는 스타트업 환경에서 주도적으로 일할 수 있는 분",
     "culture": "수평적 문화, 자율과 책임, 빠른 의사결정",
     "benefits": "스톡옵션, 자유로운 휴가, 최신 장비 지원"
-  }
+  },
+  "submit": true
 }
 ```
 
@@ -466,7 +424,7 @@
   "basic": {
     "name": "글로벌테크",
     "industry": "IT 서비스",
-    "size": "LARGE_ENTERPRISE",
+    "size": "1000명 이상",
     "location_city": "서울시 서초구",
     "homepage_url": "https://globaltech.example.com",
     "career_page_url": "https://globaltech.example.com/jobs",
@@ -478,7 +436,8 @@
     "ideal_talent": "안정적인 환경에서 대규모 시스템 경험을 쌓고 싶은 분",
     "culture": "체계적인 조직 문화, 워라밸 중시, 교육 지원",
     "benefits": "4대보험, 퇴직연금, 건강검진, 자기계발비 지원"
-  }
+  },
+  "submit": true
 }
 ```
 
@@ -528,7 +487,7 @@
   "basic": {
     "name": "마켓플러스",
     "industry": "이커머스/유통",
-    "size": "MEDIUM_ENTERPRISE",
+    "size": "500 ~ 1000명",
     "location_city": "서울시 마포구",
     "homepage_url": "https://marketplus.example.com",
     "career_page_url": "https://marketplus.example.com/careers",
@@ -540,7 +499,8 @@
     "ideal_talent": "데이터 기반으로 성과를 만들어내는 마케터",
     "culture": "성과 중심, 빠른 실행력, 협업 문화",
     "benefits": "인센티브제, 자율 출퇴근, 도서 구입비"
-  }
+  },
+  "submit": true
 }
 ```
 
@@ -590,7 +550,7 @@
   "basic": {
     "name": "페이플랫폼",
     "industry": "핀테크",
-    "size": "SERIES_B",
+    "size": "100 ~ 200명",
     "location_city": "서울시 강남구",
     "homepage_url": "https://payplatform.example.com",
     "career_page_url": "https://payplatform.example.com/recruit",
@@ -602,7 +562,8 @@
     "ideal_talent": "금융과 기술을 이해하고 제품을 만들 수 있는 PM",
     "culture": "데이터 기반 의사결정, 빠른 실험, 고객 중심",
     "benefits": "스톡옵션, 원격근무, 교육비 전액 지원"
-  }
+  },
+  "submit": true
 }
 ```
 
@@ -652,7 +613,7 @@
   "basic": {
     "name": "글로벌산업",
     "industry": "제조/화학",
-    "size": "LARGE_ENTERPRISE",
+    "size": "1000명 이상",
     "location_city": "서울시 송파구",
     "homepage_url": "https://globalindustry.example.com",
     "career_page_url": "https://globalindustry.example.com/careers",
@@ -664,7 +625,8 @@
     "ideal_talent": "글로벌 비즈니스 경험과 협상력을 갖춘 영업 전문가",
     "culture": "성과 중심, 글로벌 마인드, 전문성 존중",
     "benefits": "성과급, 법인차량, 해외연수, 건강검진"
-  }
+  },
+  "submit": true
 }
 ```
 
