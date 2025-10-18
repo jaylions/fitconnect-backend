@@ -7,45 +7,45 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 EmploymentType = Literal[
-    "FULL_TIME",
-    "PART_TIME",
-    "CONTRACT",
-    "INTERN",
-    "TEMP",
-    "OTHER",
+    "정규직",
+    "계약직",
+    "파견직",
+    "인턴",
+    "임시직",
+    "기타",
 ]
 
 LocationType = Literal[
-    "SEOUL",
-    "GYEONGGI",
-    "INCHEON",
-    "BUSAN",
-    "DAEGU",
-    "DAEJEON",
-    "GWANGJU",
-    "ULSAN",
-    "GANGWON",
-    "CHUNGBUK",
-    "CHUNGNAM",
-    "JEONBUK",
-    "JEONNAM",
-    "GYEONGBUK",
-    "GYEONGNAM",
+    "서울",
+    "경기",
+    "인천",
+    "부산",
+    "대구",
+    "대전",
+    "광주",
+    "울산",
+    "강원",
+    "충북",
+    "충남",
+    "전북",
+    "전남",
+    "경북",
+    "경남",
 ]
 
 SalaryRange = Literal[
-    "NEGOTIABLE",
-    "RANGE_20_30",
-    "RANGE_30_40",
-    "RANGE_40_50",
-    "RANGE_50_60",
-    "RANGE_60_70",
-    "RANGE_70_80",
-    "RANGE_80_90",
-    "RANGE_90_100",
-    "RANGE_100_120",
-    "RANGE_120_150",
-    "OVER_150",
+    "연봉 추후 협상",
+    "2000만 ~ 3000만",
+    "3000만 ~ 4000만",
+    "4000만 ~ 5000만",
+    "5000만 ~ 6000만",
+    "6000만 ~ 7000만",
+    "7000만 ~ 8000만",
+    "8000만 ~ 9000만",
+    "9000만 ~ 1억",
+    "1억 ~ 1.2억",
+    "1.2억 ~ 1.5억",
+    "1.5억 이상",
 ]
 
 PostingStatus = Literal["DRAFT", "PUBLISHED", "CLOSED", "ARCHIVED"]
@@ -65,18 +65,17 @@ class JobPostingCreateIn(BaseModel):
     position: Optional[str] = None
     department: Optional[str] = None
     start_date: Optional[date] = None
-    term_months: Optional[int] = None
+    term_months: Optional[str] = None
     homepage_url: Optional[str] = None
     # Aliases for convenience (mapped to start_date/term_months in repo)
     join: Optional[date] = None
-    period: Optional[int] = None
+    period: Optional[str] = None
     deadline_date: Optional[date] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
 
     # Details
-    salary_band: Optional[dict] = None
-    # Optional enum-based salary range (use names like "RANGE_70_80" or "NEGOTIABLE")
+    # Enum-based salary range
     salary_range: Optional[SalaryRange] = None
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
@@ -101,12 +100,12 @@ class JobPostingCreateIn(BaseModel):
             "position": "Backend",
             "department": "Platform",
             "start_date": "2025-11-15",
-            "term_months": 12,
+            "term_months": "12개월",
             "homepage_url": "https://company.example.com",
             "deadline_date": "2025-10-31",
             "contact_email": "hr@company.example.com",
             "contact_phone": "010-1234-5678",
-            "salary_band": {"min": 70000000, "max": 90000000, "currency": "KRW"},
+            "salary_range": "7000만 ~ 8000만",
             "responsibilities": "- 서비스 API 개발 및 운영\n- 성능 최적화",
             "requirements_must": "- Python, FastAPI 실무 경험\n- RDBMS 설계 경험",
             "requirements_nice": "- AWS, Docker 경험",
@@ -133,12 +132,11 @@ class JobPostingOut(BaseModel):
     career_level: str
     education_level: str
     start_date: Optional[date] = None
-    term_months: Optional[int] = None
+    term_months: Optional[str] = None
     homepage_url: Optional[str] = None
     deadline_date: Optional[date] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
-    salary_band: Optional[dict] = None
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
     requirements_nice: Optional[str] = None

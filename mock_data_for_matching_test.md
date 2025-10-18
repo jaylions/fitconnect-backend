@@ -382,9 +382,9 @@
 ```json
 {
   "title": "Frontend Developer (React/TypeScript)",
-  "employment_type": "FULL_TIME",
-  "location_city": "SEOUL",
-  "salary_range": "RANGE_60_70",
+  "employment_type": "정규직",
+  "location_city": "서울",
+  "salary_range": "6000만 ~ 7000만",
   "career_level": "주니어~시니어 (3-7년)",
   "education_level": "학사 이상",
   "position_group": "Engineering",
@@ -445,9 +445,9 @@
 ```json
 {
   "title": "Backend Engineer (Java/Spring)",
-  "employment_type": "FULL_TIME",
-  "location_city": "SEOUL",
-  "salary_range": "RANGE_80_90",
+  "employment_type": "정규직",
+  "location_city": "서울",
+  "salary_range": "8000만 ~ 9000만",
   "career_level": "시니어 (5년 이상)",
   "education_level": "학사 이상",
   "position_group": "Engineering",
@@ -508,9 +508,9 @@
 ```json
 {
   "title": "Performance Marketer",
-  "employment_type": "FULL_TIME",
-  "location_city": "SEOUL",
-  "salary_range": "RANGE_50_60",
+  "employment_type": "정규직",
+  "location_city": "서울",
+  "salary_range": "5000만 ~ 6000만",
   "career_level": "주니어~미들 (3-5년)",
   "education_level": "학사 이상",
   "position_group": "Marketing",
@@ -571,9 +571,9 @@
 ```json
 {
   "title": "Senior Product Manager",
-  "employment_type": "FULL_TIME",
-  "location_city": "SEOUL",
-  "salary_range": "RANGE_90_100",
+  "employment_type": "정규직",
+  "location_city": "서울",
+  "salary_range": "9000만 ~ 1억",
   "career_level": "시니어 (5-10년)",
   "education_level": "학사 이상 (MBA 우대)",
   "position_group": "Product",
@@ -634,9 +634,9 @@
 ```json
 {
   "title": "B2B Sales Manager",
-  "employment_type": "FULL_TIME",
-  "location_city": "SEOUL",
-  "salary_range": "RANGE_60_70",
+  "employment_type": "정규직",
+  "location_city": "서울",
+  "salary_range": "6000만 ~ 7000만",
   "career_level": "시니어 (5년 이상)",
   "education_level": "학사 이상",
   "position_group": "Sales",

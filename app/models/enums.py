@@ -39,4 +39,5 @@ class EmploymentTypeEnum(str, Enum):
     CONTRACT = "계약직"
     PART_TIME = "파견직"
     INTERN = "인턴"
+    TEMP = "임시직"
     OTHER = "기타"
