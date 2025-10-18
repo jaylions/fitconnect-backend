@@ -39,7 +39,7 @@ class ExperienceOut(_OrmBase):
     id: int
     user_id: int
     company_name: str
-    title: str
+    title: Optional[str] = None
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
     duration_years: Optional[int] = None

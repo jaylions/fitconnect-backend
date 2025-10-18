@@ -14,7 +14,7 @@ class Experience(Base):
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.id"), nullable=False)
 
     company_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    title: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     start_ym: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     end_ym: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     leave_reason: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
