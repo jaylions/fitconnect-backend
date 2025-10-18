@@ -12,9 +12,10 @@ from app.db.base import Base
 from app.models import enums as enums_model
 
 # SQLAlchemy Enum types derived from Python Enum classes defined in app.models.enums
-EmploymentTypeEnum = sa.Enum(*[e.name for e in enums_model.EmploymentTypeEnum], name="employment_type")
-LocationEnum = sa.Enum(*[e.name for e in enums_model.LocationEnum], name="location_enum")
-SalaryRangeEnum = sa.Enum(*[e.name for e in enums_model.SalaryRangeEnum], name="salary_range")
+# Use values (Korean labels) instead of names for storage
+EmploymentTypeEnum = sa.Enum(*[e.value for e in enums_model.EmploymentTypeEnum], name="employment_type")
+LocationEnum = sa.Enum(*[e.value for e in enums_model.LocationEnum], name="location_enum")
+SalaryRangeEnum = sa.Enum(*[e.value for e in enums_model.SalaryRangeEnum], name="salary_range")
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.job_posting_card import JobPostingCard
