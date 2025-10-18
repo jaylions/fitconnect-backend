@@ -15,9 +15,20 @@ bearer = HTTPBearer(auto_error=False)
 
 
 def get_db() -> Session:
+    """
+    요청당 1 트랜잭션 패턴:
+    - 요청 시작 시 세션 생성
+    - 성공 시 commit
+    - 예외 시 rollback
+    - 항상 close
+    """
     db = SessionLocal()
     try:
         yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
 

@@ -57,8 +57,7 @@ def get_company(user=Depends(require_company_role), db: Session = Depends(get_db
 @router.post("/full")
 def upsert_company_full(payload: CompanyFullIn, user=Depends(require_company_role), db: Session = Depends(get_db)):
     try:
-        with db.begin():
-            company = company_service.upsert_full(db, owner_user_id=user["id"], payload=payload.model_dump())
+        company = company_service.upsert_full(db, owner_user_id=user["id"], payload=payload.model_dump())
     except HTTPException as e:
         if e.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY:
             return JSONResponse(status_code=422, content={"ok": False, "error": e.detail})
@@ -79,8 +78,7 @@ def upsert_company_full(payload: CompanyFullIn, user=Depends(require_company_rol
 
 @router.post("/submit")
 def submit_company(user=Depends(require_company_role), db: Session = Depends(get_db)):
-    with db.begin():
-        company = company_service.submit_company(db, owner_user_id=user["id"])
+    company = company_service.submit_company(db, owner_user_id=user["id"])
     return {
         "ok": True,
         "data": {"is_submitted": company.is_submitted or 0, "profile_step": company.profile_step or 0},
@@ -90,8 +88,7 @@ def submit_company(user=Depends(require_company_role), db: Session = Depends(get
 @router.post("/job-postings")
 def create_job_posting(payload: JobPostingCreateIn, user=Depends(require_company_role), db: Session = Depends(get_db)):
     try:
-        with db.begin():
-            posting = job_posting_service.create(db, owner_user_id=user["id"], payload=payload.model_dump())
+        posting = job_posting_service.create(db, owner_user_id=user["id"], payload=payload.model_dump())
     except HTTPException as e:
         if e.status_code in (status.HTTP_404_NOT_FOUND, status.HTTP_422_UNPROCESSABLE_ENTITY):
             return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
@@ -191,8 +188,7 @@ def update_job_posting(
     db: Session = Depends(get_db),
 ):
     try:
-        with db.begin():
-            posting = job_posting_service.update(db, owner_user_id=user["id"], posting_id=posting_id, payload=payload)
+        posting = job_posting_service.update(db, owner_user_id=user["id"], posting_id=posting_id, payload=payload)
     except HTTPException as e:
         if e.status_code in (
             status.HTTP_404_NOT_FOUND,
@@ -244,8 +240,7 @@ def delete_job_posting(
     db: Session = Depends(get_db),
 ):
     try:
-        with db.begin():
-            posting = job_posting_service.delete(db, owner_user_id=user["id"], posting_id=posting_id)
+        posting = job_posting_service.delete(db, owner_user_id=user["id"], posting_id=posting_id)
     except HTTPException as e:
         if e.status_code in (
             status.HTTP_404_NOT_FOUND,

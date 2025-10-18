@@ -38,13 +38,12 @@ def create_matching_vector(
 
     payload_dict = payload.model_dump(exclude={"role"}, exclude_unset=True)
     try:
-        with db.begin():
-            row = matching_vector_service.create(
-                db,
-                user_id=int(user["id"]),
-                role=payload.role,
-                payload=payload_dict,
-            )
+        row = matching_vector_service.create(
+            db,
+            user_id=int(user["id"]),
+            role=payload.role,
+            payload=payload_dict,
+        )
     except HTTPException as exc:
         if exc.status_code in (
             status.HTTP_409_CONFLICT,
@@ -68,13 +67,12 @@ def update_matching_vector(
 ):
     payload_dict = payload.model_dump(exclude_unset=True)
     try:
-        with db.begin():
-            row = matching_vector_service.update(
-                db,
-                user_id=int(user["id"]),
-                matching_vector_id=matching_vector_id,
-                payload=payload_dict,
-            )
+        row = matching_vector_service.update(
+            db,
+            user_id=int(user["id"]),
+            matching_vector_id=matching_vector_id,
+            payload=payload_dict,
+        )
     except HTTPException as exc:
         if exc.status_code in (
             status.HTTP_404_NOT_FOUND,
@@ -94,12 +92,11 @@ def delete_matching_vector(
     db: Session = Depends(get_db),
 ):
     try:
-        with db.begin():
-            row = matching_vector_service.delete(
-                db,
-                user_id=int(user["id"]),
-                matching_vector_id=matching_vector_id,
-            )
+        row = matching_vector_service.delete(
+            db,
+            user_id=int(user["id"]),
+            matching_vector_id=matching_vector_id,
+        )
     except HTTPException as exc:
         if exc.status_code in (
             status.HTTP_404_NOT_FOUND,

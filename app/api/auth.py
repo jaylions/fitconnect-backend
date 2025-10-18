@@ -37,17 +37,18 @@ def register(payload: UserRegisterRequest, db: Session = Depends(get_db)):
     )
     try:
         db.add(user)
-        db.commit()
+        db.flush()  # PK 생성을 위해 flush
         db.refresh(user)
+        
         # Seed company row for company role
         if user.role == "company":
             existing_company = db.execute(select(Company).where(Company.owner_user_id == user.id)).scalar_one_or_none()
             if existing_company is None:
                 company = Company(owner_user_id=user.id, name="", industry="", location_city="")
                 db.add(company)
-                db.commit()
+                db.flush()  # Company 객체도 flush
     except IntegrityError:
-        db.rollback()
+        # get_db()가 자동으로 rollback 처리
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
     return {"id": user.id, "email": user.email, "role": user.role}

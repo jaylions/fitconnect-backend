@@ -43,8 +43,9 @@ def create_talent_card(payload: TalentCardCreate, db: Session = Depends(get_db))
         )
 
     card = TalentCard(**payload.model_dump())
-    with db.begin():
-        db.add(card)
+    db.add(card)
+    db.flush()  # PK 생성을 위해 flush
+    db.refresh(card)  # 관계 로딩
 
     response = TalentCardResponse.model_validate(card)
     return {"ok": True, "data": response.model_dump(mode="json")}
