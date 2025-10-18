@@ -9,6 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy import text
 from sqlalchemy.dialects import mysql
 
 
@@ -19,25 +20,46 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
+def column_exists(connection, table_name: str, column_name: str) -> bool:
+    """Check if a column exists in a table"""
+    result = connection.execute(text(
+        f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS "
+        f"WHERE TABLE_SCHEMA = DATABASE() "
+        f"AND TABLE_NAME = '{table_name}' "
+        f"AND COLUMN_NAME = '{column_name}'"
+    ))
+    return result.scalar() > 0
+
+
 def upgrade() -> None:
-    # Step 1: Add new term_months_new column as TEXT
-    op.add_column('job_postings', sa.Column('term_months_new', sa.Text(), nullable=True))
+    connection = op.get_bind()
     
-    # Step 2: Convert existing integer data to text (e.g., 12 -> "12개월")
-    op.execute("""
-        UPDATE job_postings 
-        SET term_months_new = CONCAT(term_months, '개월')
-        WHERE term_months IS NOT NULL
-    """)
+    # Check if old column exists (fresh migration) or new column exists (partial migration)
+    old_col_exists = column_exists(connection, 'job_postings', 'term_months')
+    new_col_exists = column_exists(connection, 'job_postings', 'term_months_new')
+    salary_band_exists = column_exists(connection, 'job_postings', 'salary_band')
     
-    # Step 3: Drop old term_months column (SmallInteger)
-    op.drop_column('job_postings', 'term_months')
+    # Step 1: Add new term_months_new column as TEXT (if it doesn't exist)
+    if not new_col_exists and old_col_exists:
+        op.add_column('job_postings', sa.Column('term_months_new', sa.Text(), nullable=True))
+        
+        # Step 2: Convert existing integer data to text (e.g., 12 -> "12개월")
+        op.execute("""
+            UPDATE job_postings 
+            SET term_months_new = CONCAT(term_months, '개월')
+            WHERE term_months IS NOT NULL
+        """)
+        
+        # Step 3: Drop old term_months column (SmallInteger)
+        op.drop_column('job_postings', 'term_months')
     
-    # Step 4: Rename term_months_new to term_months
-    op.alter_column('job_postings', 'term_months_new', new_column_name='term_months')
+    # Step 4: Rename term_months_new to term_months (if _new column exists)
+    if new_col_exists:
+        op.execute("ALTER TABLE job_postings CHANGE COLUMN term_months_new term_months TEXT NULL")
     
-    # Step 5: Drop salary_band column (JSON)
-    op.drop_column('job_postings', 'salary_band')
+    # Step 5: Drop salary_band column (JSON) if it exists
+    if salary_band_exists:
+        op.drop_column('job_postings', 'salary_band')
 
 
 def downgrade() -> None:
@@ -58,4 +80,4 @@ def downgrade() -> None:
     op.drop_column('job_postings', 'term_months')
     
     # Step 5: Rename term_months_int to term_months
-    op.alter_column('job_postings', 'term_months_int', new_column_name='term_months')
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN term_months_int term_months SMALLINT NULL")

@@ -9,6 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy import text
 
 
 # revision identifiers, used by Alembic.
@@ -18,76 +19,95 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
+def column_exists(connection, table_name: str, column_name: str) -> bool:
+    """Check if a column exists in a table"""
+    result = connection.execute(text(
+        f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS "
+        f"WHERE TABLE_SCHEMA = DATABASE() "
+        f"AND TABLE_NAME = '{table_name}' "
+        f"AND COLUMN_NAME = '{column_name}'"
+    ))
+    return result.scalar() > 0
+
+
 def upgrade() -> None:
-    # Step 1: Add new columns with Korean enum values
-    op.execute("""
-        ALTER TABLE job_postings 
-        ADD COLUMN employment_type_new ENUM('정규직', '계약직', '파견직', '인턴', '임시직', '기타') NULL
-    """)
+    connection = op.get_bind()
     
-    op.execute("""
-        ALTER TABLE job_postings 
-        ADD COLUMN location_city_new ENUM('서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '강원', '충북', '충남', '전북', '전남', '경북', '경남') NULL
-    """)
+    # Check if old columns exist (fresh migration) or new columns exist (partial migration)
+    old_cols_exist = column_exists(connection, 'job_postings', 'employment_type')
+    new_cols_exist = column_exists(connection, 'job_postings', 'employment_type_new')
     
-    op.execute("""
-        ALTER TABLE job_postings 
-        ADD COLUMN salary_range_new ENUM('연봉 추후 협상', '2000만 ~ 3000만', '3000만 ~ 4000만', '4000만 ~ 5000만', '5000만 ~ 6000만', '6000만 ~ 7000만', '7000만 ~ 8000만', '8000만 ~ 9000만', '9000만 ~ 1억', '1억 ~ 1.2억', '1.2억 ~ 1.5억', '1.5억 이상') NULL
-    """)
+    # Step 1: Add new columns with Korean enum values (if they don't exist)
+    if old_cols_exist and not new_cols_exist:
+        op.execute("""
+            ALTER TABLE job_postings 
+            ADD COLUMN employment_type_new ENUM('정규직', '계약직', '파견직', '인턴', '임시직', '기타') NULL
+        """)
+        
+        op.execute("""
+            ALTER TABLE job_postings 
+            ADD COLUMN location_city_new ENUM('서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '강원', '충북', '충남', '전북', '전남', '경북', '경남') NULL
+        """)
+        
+        op.execute("""
+            ALTER TABLE job_postings 
+            ADD COLUMN salary_range_new ENUM('연봉 추후 협상', '2000만 ~ 3000만', '3000만 ~ 4000만', '4000만 ~ 5000만', '5000만 ~ 6000만', '6000만 ~ 7000만', '7000만 ~ 8000만', '8000만 ~ 9000만', '9000만 ~ 1억', '1억 ~ 1.2억', '1.2억 ~ 1.5억', '1.5억 이상') NULL
+        """)
     
-    # Step 2: Convert data from English to Korean
-    # Employment Type
-    op.execute("UPDATE job_postings SET employment_type_new = '정규직' WHERE employment_type = 'FULL_TIME'")
-    op.execute("UPDATE job_postings SET employment_type_new = '계약직' WHERE employment_type = 'CONTRACT'")
-    op.execute("UPDATE job_postings SET employment_type_new = '파견직' WHERE employment_type = 'PART_TIME'")
-    op.execute("UPDATE job_postings SET employment_type_new = '인턴' WHERE employment_type = 'INTERN'")
-    op.execute("UPDATE job_postings SET employment_type_new = '임시직' WHERE employment_type = 'TEMP'")
-    op.execute("UPDATE job_postings SET employment_type_new = '기타' WHERE employment_type = 'OTHER'")
-    
-    # Location
-    op.execute("UPDATE job_postings SET location_city_new = '서울' WHERE location_city = 'SEOUL'")
-    op.execute("UPDATE job_postings SET location_city_new = '경기' WHERE location_city = 'GYEONGGI'")
-    op.execute("UPDATE job_postings SET location_city_new = '인천' WHERE location_city = 'INCHEON'")
-    op.execute("UPDATE job_postings SET location_city_new = '부산' WHERE location_city = 'BUSAN'")
-    op.execute("UPDATE job_postings SET location_city_new = '대구' WHERE location_city = 'DAEGU'")
-    op.execute("UPDATE job_postings SET location_city_new = '대전' WHERE location_city = 'DAEJEON'")
-    op.execute("UPDATE job_postings SET location_city_new = '광주' WHERE location_city = 'GWANGJU'")
-    op.execute("UPDATE job_postings SET location_city_new = '울산' WHERE location_city = 'ULSAN'")
-    op.execute("UPDATE job_postings SET location_city_new = '강원' WHERE location_city = 'GANGWON'")
-    op.execute("UPDATE job_postings SET location_city_new = '충북' WHERE location_city = 'CHUNGBUK'")
-    op.execute("UPDATE job_postings SET location_city_new = '충남' WHERE location_city = 'CHUNGNAM'")
-    op.execute("UPDATE job_postings SET location_city_new = '전북' WHERE location_city = 'JEONBUK'")
-    op.execute("UPDATE job_postings SET location_city_new = '전남' WHERE location_city = 'JEONNAM'")
-    op.execute("UPDATE job_postings SET location_city_new = '경북' WHERE location_city = 'GYEONGBUK'")
-    op.execute("UPDATE job_postings SET location_city_new = '경남' WHERE location_city = 'GYEONGNAM'")
-    
-    # Salary Range
-    op.execute("UPDATE job_postings SET salary_range_new = '연봉 추후 협상' WHERE salary_range = 'NEGOTIABLE'")
-    op.execute("UPDATE job_postings SET salary_range_new = '2000만 ~ 3000만' WHERE salary_range = 'RANGE_20_30'")
-    op.execute("UPDATE job_postings SET salary_range_new = '3000만 ~ 4000만' WHERE salary_range = 'RANGE_30_40'")
-    op.execute("UPDATE job_postings SET salary_range_new = '4000만 ~ 5000만' WHERE salary_range = 'RANGE_40_50'")
-    op.execute("UPDATE job_postings SET salary_range_new = '5000만 ~ 6000만' WHERE salary_range = 'RANGE_50_60'")
-    op.execute("UPDATE job_postings SET salary_range_new = '6000만 ~ 7000만' WHERE salary_range = 'RANGE_60_70'")
-    op.execute("UPDATE job_postings SET salary_range_new = '7000만 ~ 8000만' WHERE salary_range = 'RANGE_70_80'")
-    op.execute("UPDATE job_postings SET salary_range_new = '8000만 ~ 9000만' WHERE salary_range = 'RANGE_80_90'")
-    op.execute("UPDATE job_postings SET salary_range_new = '9000만 ~ 1억' WHERE salary_range = 'RANGE_90_100'")
-    op.execute("UPDATE job_postings SET salary_range_new = '1억 ~ 1.2억' WHERE salary_range = 'RANGE_100_120'")
-    op.execute("UPDATE job_postings SET salary_range_new = '1.2억 ~ 1.5억' WHERE salary_range = 'RANGE_120_150'")
-    op.execute("UPDATE job_postings SET salary_range_new = '1.5억 이상' WHERE salary_range = 'OVER_150'")
-    
-    # Step 3: Drop old columns
-    op.drop_column('job_postings', 'employment_type')
-    op.drop_column('job_postings', 'location_city')
-    op.drop_column('job_postings', 'salary_range')
+    # Step 2: Convert data from English to Korean (only if old columns exist)
+    if old_cols_exist:
+        # Employment Type
+        op.execute("UPDATE job_postings SET employment_type_new = '정규직' WHERE employment_type = 'FULL_TIME'")
+        op.execute("UPDATE job_postings SET employment_type_new = '계약직' WHERE employment_type = 'CONTRACT'")
+        op.execute("UPDATE job_postings SET employment_type_new = '파견직' WHERE employment_type = 'PART_TIME'")
+        op.execute("UPDATE job_postings SET employment_type_new = '인턴' WHERE employment_type = 'INTERN'")
+        op.execute("UPDATE job_postings SET employment_type_new = '임시직' WHERE employment_type = 'TEMP'")
+        op.execute("UPDATE job_postings SET employment_type_new = '기타' WHERE employment_type = 'OTHER'")
+        
+        # Location
+        op.execute("UPDATE job_postings SET location_city_new = '서울' WHERE location_city = 'SEOUL'")
+        op.execute("UPDATE job_postings SET location_city_new = '경기' WHERE location_city = 'GYEONGGI'")
+        op.execute("UPDATE job_postings SET location_city_new = '인천' WHERE location_city = 'INCHEON'")
+        op.execute("UPDATE job_postings SET location_city_new = '부산' WHERE location_city = 'BUSAN'")
+        op.execute("UPDATE job_postings SET location_city_new = '대구' WHERE location_city = 'DAEGU'")
+        op.execute("UPDATE job_postings SET location_city_new = '대전' WHERE location_city = 'DAEJEON'")
+        op.execute("UPDATE job_postings SET location_city_new = '광주' WHERE location_city = 'GWANGJU'")
+        op.execute("UPDATE job_postings SET location_city_new = '울산' WHERE location_city = 'ULSAN'")
+        op.execute("UPDATE job_postings SET location_city_new = '강원' WHERE location_city = 'GANGWON'")
+        op.execute("UPDATE job_postings SET location_city_new = '충북' WHERE location_city = 'CHUNGBUK'")
+        op.execute("UPDATE job_postings SET location_city_new = '충남' WHERE location_city = 'CHUNGNAM'")
+        op.execute("UPDATE job_postings SET location_city_new = '전북' WHERE location_city = 'JEONBUK'")
+        op.execute("UPDATE job_postings SET location_city_new = '전남' WHERE location_city = 'JEONNAM'")
+        op.execute("UPDATE job_postings SET location_city_new = '경북' WHERE location_city = 'GYEONGBUK'")
+        op.execute("UPDATE job_postings SET location_city_new = '경남' WHERE location_city = 'GYEONGNAM'")
+        
+        # Salary Range
+        op.execute("UPDATE job_postings SET salary_range_new = '연봉 추후 협상' WHERE salary_range = 'NEGOTIABLE'")
+        op.execute("UPDATE job_postings SET salary_range_new = '2000만 ~ 3000만' WHERE salary_range = 'RANGE_20_30'")
+        op.execute("UPDATE job_postings SET salary_range_new = '3000만 ~ 4000만' WHERE salary_range = 'RANGE_30_40'")
+        op.execute("UPDATE job_postings SET salary_range_new = '4000만 ~ 5000만' WHERE salary_range = 'RANGE_40_50'")
+        op.execute("UPDATE job_postings SET salary_range_new = '5000만 ~ 6000만' WHERE salary_range = 'RANGE_50_60'")
+        op.execute("UPDATE job_postings SET salary_range_new = '6000만 ~ 7000만' WHERE salary_range = 'RANGE_60_70'")
+        op.execute("UPDATE job_postings SET salary_range_new = '7000만 ~ 8000만' WHERE salary_range = 'RANGE_70_80'")
+        op.execute("UPDATE job_postings SET salary_range_new = '8000만 ~ 9000만' WHERE salary_range = 'RANGE_80_90'")
+        op.execute("UPDATE job_postings SET salary_range_new = '9000만 ~ 1억' WHERE salary_range = 'RANGE_90_100'")
+        op.execute("UPDATE job_postings SET salary_range_new = '1억 ~ 1.2억' WHERE salary_range = 'RANGE_100_120'")
+        op.execute("UPDATE job_postings SET salary_range_new = '1.2억 ~ 1.5억' WHERE salary_range = 'RANGE_120_150'")
+        op.execute("UPDATE job_postings SET salary_range_new = '1.5억 이상' WHERE salary_range = 'OVER_150'")
+        
+        # Step 3: Drop old columns
+        op.drop_column('job_postings', 'employment_type')
+        op.drop_column('job_postings', 'location_city')
+        op.drop_column('job_postings', 'salary_range')
     
     # Step 4: Rename new columns to original names
-    op.alter_column('job_postings', 'employment_type_new', new_column_name='employment_type')
-    op.alter_column('job_postings', 'location_city_new', new_column_name='location_city')
-    op.alter_column('job_postings', 'salary_range_new', new_column_name='salary_range')
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN employment_type_new employment_type ENUM('정규직', '계약직', '파견직', '인턴', '임시직', '기타') NULL")
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN location_city_new location_city ENUM('서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '강원', '충북', '충남', '전북', '전남', '경북', '경남') NULL")
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN salary_range_new salary_range ENUM('연봉 추후 협상', '2000만 ~ 3000만', '3000만 ~ 4000만', '4000만 ~ 5000만', '5000만 ~ 6000만', '6000만 ~ 7000만', '7000만 ~ 8000만', '8000만 ~ 9000만', '9000만 ~ 1억', '1억 ~ 1.2억', '1.2억 ~ 1.5억', '1.5억 이상') NULL")
     
     # Step 5: Make employment_type and location_city NOT NULL
-    op.alter_column('job_postings', 'employment_type', nullable=False)
-    op.alter_column('job_postings', 'location_city', nullable=False)
+    op.execute("ALTER TABLE job_postings MODIFY COLUMN employment_type ENUM('정규직', '계약직', '파견직', '인턴', '임시직', '기타') NOT NULL")
+    op.execute("ALTER TABLE job_postings MODIFY COLUMN location_city ENUM('서울', '경기', '인천', '부산', '대구', '대전', '광주', '울산', '강원', '충북', '충남', '전북', '전남', '경북', '경남') NOT NULL")
 
 
 def downgrade() -> None:
@@ -151,10 +171,10 @@ def downgrade() -> None:
     op.drop_column('job_postings', 'salary_range')
     
     # Step 4: Rename old columns back
-    op.alter_column('job_postings', 'employment_type_old', new_column_name='employment_type')
-    op.alter_column('job_postings', 'location_city_old', new_column_name='location_city')
-    op.alter_column('job_postings', 'salary_range_old', new_column_name='salary_range')
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN employment_type_old employment_type ENUM('FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERN', 'TEMP', 'OTHER') NULL")
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN location_city_old location_city ENUM('SEOUL', 'GYEONGGI', 'INCHEON', 'BUSAN', 'DAEGU', 'DAEJEON', 'GWANGJU', 'ULSAN', 'GANGWON', 'CHUNGBUK', 'CHUNGNAM', 'JEONBUK', 'JEONNAM', 'GYEONGBUK', 'GYEONGNAM') NULL")
+    op.execute("ALTER TABLE job_postings CHANGE COLUMN salary_range_old salary_range ENUM('NEGOTIABLE', 'RANGE_20_30', 'RANGE_30_40', 'RANGE_40_50', 'RANGE_50_60', 'RANGE_60_70', 'RANGE_70_80', 'RANGE_80_90', 'RANGE_90_100', 'RANGE_100_120', 'RANGE_120_150', 'OVER_150') NULL")
     
     # Step 5: Make employment_type and location_city NOT NULL
-    op.alter_column('job_postings', 'employment_type', nullable=False)
-    op.alter_column('job_postings', 'location_city', nullable=False)
+    op.execute("ALTER TABLE job_postings MODIFY COLUMN employment_type ENUM('FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERN', 'TEMP', 'OTHER') NOT NULL")
+    op.execute("ALTER TABLE job_postings MODIFY COLUMN location_city ENUM('SEOUL', 'GYEONGGI', 'INCHEON', 'BUSAN', 'DAEGU', 'DAEJEON', 'GWANGJU', 'ULSAN', 'GANGWON', 'CHUNGBUK', 'CHUNGNAM', 'JEONBUK', 'JEONNAM', 'GYEONGBUK', 'GYEONGNAM') NOT NULL")
