@@ -65,18 +65,17 @@ class JobPostingCreateIn(BaseModel):
     position: Optional[str] = None
     department: Optional[str] = None
     start_date: Optional[date] = None
-    term_months: Optional[int] = None
+    term_months: Optional[str] = None
     homepage_url: Optional[str] = None
     # Aliases for convenience (mapped to start_date/term_months in repo)
     join: Optional[date] = None
-    period: Optional[int] = None
+    period: Optional[str] = None
     deadline_date: Optional[date] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
 
     # Details
-    salary_band: Optional[dict] = None
-    # Optional enum-based salary range (use names like "RANGE_70_80" or "NEGOTIABLE")
+    # Enum-based salary range
     salary_range: Optional[SalaryRange] = None
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
@@ -101,12 +100,12 @@ class JobPostingCreateIn(BaseModel):
             "position": "Backend",
             "department": "Platform",
             "start_date": "2025-11-15",
-            "term_months": 12,
+            "term_months": "12개월",
             "homepage_url": "https://company.example.com",
             "deadline_date": "2025-10-31",
             "contact_email": "hr@company.example.com",
             "contact_phone": "010-1234-5678",
-            "salary_band": {"min": 70000000, "max": 90000000, "currency": "KRW"},
+            "salary_range": "7000만 ~ 8000만",
             "responsibilities": "- 서비스 API 개발 및 운영\n- 성능 최적화",
             "requirements_must": "- Python, FastAPI 실무 경험\n- RDBMS 설계 경험",
             "requirements_nice": "- AWS, Docker 경험",
@@ -133,12 +132,11 @@ class JobPostingOut(BaseModel):
     career_level: str
     education_level: str
     start_date: Optional[date] = None
-    term_months: Optional[int] = None
+    term_months: Optional[str] = None
     homepage_url: Optional[str] = None
     deadline_date: Optional[date] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
-    salary_band: Optional[dict] = None
     responsibilities: Optional[str] = None
     requirements_must: Optional[str] = None
     requirements_nice: Optional[str] = None

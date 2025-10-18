@@ -58,15 +58,13 @@ class JobPosting(TimestampMixin, Base):
     education_level: Mapped[str] = mapped_column(Text, nullable=False)
 
     start_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
-    term_months: Mapped[Optional[int]] = mapped_column(SmallInteger, nullable=True)
+    term_months: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     homepage_url: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     deadline_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
     contact_email: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     contact_phone: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
-    # Keep existing free-form salary_band for backward compatibility
-    salary_band: Mapped[Optional[dict]] = mapped_column(MySQLJSON, nullable=True)
-    # New enum-based salary range column (e.g., RANGE_70_80)
+    # Enum-based salary range column
     salary_range: Mapped[Optional[str]] = mapped_column(SalaryRangeEnum, nullable=True)
     responsibilities: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     requirements_must: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
