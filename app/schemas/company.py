@@ -1,25 +1,14 @@
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
-
-
-CompanySize = Literal[
-    "1 ~ 10명",
-    "10 ~ 50명",
-    "50 ~ 100명",
-    "100 ~ 200명",
-    "200 ~ 500명",
-    "500 ~ 1000명",
-    "1000명 이상",
-]
 
 
 class CompanyBasicIn(BaseModel):
     name: str = Field(min_length=1)
     industry: str = Field(min_length=1)
-    size: Optional[CompanySize] = None
+    size: Optional[str] = None  # 예: 1 ~ 10명, 10 ~ 50명, 50 ~ 100명, 100 ~ 200명, 200 ~ 500명, 500 ~ 1000명, 1000명 이상
     location_city: str = Field(min_length=1)
     homepage_url: Optional[str] = None
     career_page_url: Optional[str] = None
@@ -65,7 +54,7 @@ class CompanyFullIn(BaseModel):
 class CompanyBasicOut(BaseModel):
     name: str
     industry: str
-    size: Optional[CompanySize] = None
+    size: Optional[str] = None
     location_city: str
     homepage_url: Optional[str] = None
     career_page_url: Optional[str] = None

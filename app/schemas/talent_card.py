@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
-from typing import Any, List, Literal, Optional
+from typing import Any, List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class CapabilityItem(BaseModel):
     name: str = Field(min_length=1)
-    level: Literal["low", "medium", "high"]
+    level: str  # 예: low, medium, high
 
 
 class TalentCardBase(BaseModel):

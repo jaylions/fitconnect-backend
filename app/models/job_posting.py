@@ -19,6 +19,7 @@ SalaryRangeEnum = sa.Enum(*[e.value for e in enums_model.SalaryRangeEnum], name=
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.job_posting_card import JobPostingCard
+    from app.models.matching_vector import MatchingVector
 
 
 JobPostingStatusEnum = sa.Enum(
@@ -90,6 +91,12 @@ class JobPosting(TimestampMixin, Base):
     cards: Mapped[list["JobPostingCard"]] = relationship(
         "JobPostingCard",
         back_populates="job_posting",
+    )
+    
+    matching_vectors: Mapped[list["MatchingVector"]] = relationship(
+        "MatchingVector",
+        back_populates="job_posting",
+        cascade="all, delete-orphan",
     )
 
     def __repr__(self) -> str:  # pragma: no cover - debugging aid
