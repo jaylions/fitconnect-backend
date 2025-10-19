@@ -6,114 +6,152 @@ from typing import Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field
 
 
+# 고용 형태
 EmploymentType = Literal[
-    "정규직",
-    "계약직",
-    "파견직",
-    "인턴",
-    "임시직",
-    "기타",
+    "정규직",  # FULL_TIME
+    "계약직",  # CONTRACT
+    "파견직",  # PART_TIME
+    "인턴",    # INTERN
+    "임시직",  # TEMP
+    "기타",    # OTHER
 ]
 
+# 근무 지역
 LocationType = Literal[
-    "서울",
-    "경기",
-    "인천",
-    "부산",
-    "대구",
-    "대전",
-    "광주",
-    "울산",
-    "강원",
-    "충북",
-    "충남",
-    "전북",
-    "전남",
-    "경북",
-    "경남",
+    # 수도권
+    "서울",    # SEOUL
+    "경기",    # GYEONGGI
+    "인천",    # INCHEON
+    # 광역시
+    "부산",    # BUSAN
+    "대구",    # DAEGU
+    "대전",    # DAEJEON
+    "광주",    # GWANGJU
+    "울산",    # ULSAN
+    # 도
+    "강원",    # GANGWON
+    "충북",    # CHUNGBUK
+    "충남",    # CHUNGNAM
+    "전북",    # JEONBUK
+    "전남",    # JEONNAM
+    "경북",    # GYEONGBUK
+    "경남",    # GYEONGNAM
 ]
 
+# 연봉 범위
 SalaryRange = Literal[
-    "연봉 추후 협상",
-    "2000만 ~ 3000만",
-    "3000만 ~ 4000만",
-    "4000만 ~ 5000만",
-    "5000만 ~ 6000만",
-    "6000만 ~ 7000만",
-    "7000만 ~ 8000만",
-    "8000만 ~ 9000만",
-    "9000만 ~ 1억",
-    "1억 ~ 1.2억",
-    "1.2억 ~ 1.5억",
-    "1.5억 이상",
+    "연봉 추후 협상",      # NEGOTIABLE
+    "2000만 ~ 3000만",    # RANGE_20_30
+    "3000만 ~ 4000만",    # RANGE_30_40
+    "4000만 ~ 5000만",    # RANGE_40_50
+    "5000만 ~ 6000만",    # RANGE_50_60
+    "6000만 ~ 7000만",    # RANGE_60_70
+    "7000만 ~ 8000만",    # RANGE_70_80
+    "8000만 ~ 9000만",    # RANGE_80_90
+    "9000만 ~ 1억",       # RANGE_90_100
+    "1억 ~ 1.2억",        # RANGE_100_120
+    "1.2억 ~ 1.5억",      # RANGE_120_150
+    "1.5억 이상",         # OVER_150
 ]
 
-PostingStatus = Literal["DRAFT", "PUBLISHED", "CLOSED", "ARCHIVED"]
+# 공고 상태
+PostingStatus = Literal[
+    "DRAFT",      # 임시저장
+    "PUBLISHED",  # 공개
+    "CLOSED",     # 마감
+    "ARCHIVED",   # 보관
+]
 
 
 class JobPostingCreateIn(BaseModel):
-    # Required
-    title: str = Field(min_length=1)
-    employment_type: EmploymentType
-    # Use enum names for location (e.g., "SEOUL", "GYEONGGI")
-    location_city: LocationType
-    career_level: str = Field(min_length=1)
-    education_level: str = Field(min_length=1)
+    """채용 공고 생성 요청 스키마"""
+    
+    # === 필수 항목 ===
+    title: str = Field(min_length=1, description="공고 제목")
+    employment_type: EmploymentType = Field(description="고용 형태 (정규직/계약직/파견직/인턴/임시직/기타)")
+    location_city: LocationType = Field(description="근무 지역 (서울/경기/인천/부산/대구/대전/광주/울산/강원/충북/충남/전북/전남/경북/경남)")
+    career_level: str = Field(min_length=1, description="경력 수준 (예: 신입, 경력 3년, 5년 이상)")
+    education_level: str = Field(min_length=1, description="학력 수준 (예: 학력무관, 고졸, 대졸)")
 
-    # Optional basics
-    position_group: Optional[str] = None
-    position: Optional[str] = None
-    department: Optional[str] = None
-    start_date: Optional[date] = None
-    term_months: Optional[str] = None
-    homepage_url: Optional[str] = None
-    # Aliases for convenience (mapped to start_date/term_months in repo)
-    join: Optional[date] = None
-    period: Optional[str] = None
-    deadline_date: Optional[date] = None
-    contact_email: Optional[str] = None
-    contact_phone: Optional[str] = None
+    # === 포지션 정보 ===
+    position_group: Optional[str] = Field(None, description="포지션 그룹 (예: 개발)")
+    position: Optional[str] = Field(None, description="세부 포지션 (예: 백엔드 개발자)")
+    department: Optional[str] = Field(None, description="부서명")
 
-    # Details
-    # Enum-based salary range
-    salary_range: Optional[SalaryRange] = None
-    responsibilities: Optional[str] = None
-    requirements_must: Optional[str] = None
-    requirements_nice: Optional[str] = None
-    competencies: Optional[str] = None
+    # === 근무 조건 ===
+    start_date: Optional[date] = Field(None, description="입사 희망일")
+    term_months: Optional[str] = Field(None, description="계약 기간 (예: 12개월, 협의 후 결정)")
+    salary_range: Optional[SalaryRange] = Field(None, description="연봉 범위")
 
-    # Files
-    jd_file_id: Optional[str] = None
-    extra_file_id: Optional[str] = None
+    # === 연락처 및 기한 ===
+    homepage_url: Optional[str] = Field(None, description="회사 홈페이지 URL")
+    deadline_date: Optional[date] = Field(None, description="지원 마감일")
+    contact_email: Optional[str] = Field(None, description="담당자 이메일")
+    contact_phone: Optional[str] = Field(None, description="담당자 연락처")
 
-    # Status (defaults to DRAFT if omitted)
-    status: Optional[PostingStatus] = None
+    # === 상세 내용 ===
+    responsibilities: Optional[str] = Field(None, description="주요 업무 (줄바꿈 가능)")
+    requirements_must: Optional[str] = Field(None, description="필수 요구사항 (줄바꿈 가능)")
+    requirements_nice: Optional[str] = Field(None, description="우대 사항 (줄바꿈 가능)")
+    competencies: Optional[str] = Field(None, description="필요 역량/기술 스택")
+
+    # === 첨부 파일 ===
+    jd_file_id: Optional[str] = Field(None, description="JD 파일 ID")
+    extra_file_id: Optional[str] = Field(None, description="추가 파일 ID")
+
+    # === 공고 상태 ===
+    status: Optional[PostingStatus] = Field(None, description="공고 상태 (DRAFT/PUBLISHED/CLOSED/ARCHIVED, 기본값: DRAFT)")
+    
+    # Deprecated aliases (하위 호환성 유지)
+    join: Optional[date] = Field(None, deprecated=True, description="입사 희망일 (start_date 사용 권장)")
+    period: Optional[str] = Field(None, deprecated=True, description="계약 기간 (term_months 사용 권장)")
 
     model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "title": "Backend Engineer",
-            "employment_type": "FULL_TIME",
-            "location_city": "Seoul",
-            "career_level": "Senior",
-            "education_level": "Bachelor",
-            "position_group": "Engineering",
-            "position": "Backend",
-            "department": "Platform",
-            "start_date": "2025-11-15",
-            "term_months": "12개월",
-            "homepage_url": "https://company.example.com",
-            "deadline_date": "2025-10-31",
-            "contact_email": "hr@company.example.com",
-            "contact_phone": "010-1234-5678",
-            "salary_range": "7000만 ~ 8000만",
-            "responsibilities": "- 서비스 API 개발 및 운영\n- 성능 최적화",
-            "requirements_must": "- Python, FastAPI 실무 경험\n- RDBMS 설계 경험",
-            "requirements_nice": "- AWS, Docker 경험",
-            "competencies": "Python, FastAPI, MySQL",
-            "jd_file_id": "file_abc123",
-            "extra_file_id": "file_xyz789",
-            "status": "DRAFT"
-        }
+        "examples": [
+            {
+                "title": "백엔드 개발자 (Python/FastAPI)",
+                "employment_type": "정규직",
+                "location_city": "서울",
+                "career_level": "경력 3년 이상",
+                "education_level": "학력무관",
+                "position_group": "개발",
+                "position": "백엔드 개발자",
+                "department": "플랫폼팀",
+                "start_date": "2025-11-15",
+                "term_months": "정규직 (기간 제한 없음)",
+                "salary_range": "7000만 ~ 8000만",
+                "homepage_url": "https://company.example.com",
+                "deadline_date": "2025-10-31",
+                "contact_email": "hr@company.example.com",
+                "contact_phone": "010-1234-5678",
+                "responsibilities": "- 서비스 백엔드 API 개발 및 운영\n- 데이터베이스 설계 및 최적화\n- 성능 모니터링 및 개선",
+                "requirements_must": "- Python, FastAPI 실무 경험 3년 이상\n- MySQL/PostgreSQL 등 RDBMS 설계 경험\n- RESTful API 설계 및 개발 경험",
+                "requirements_nice": "- AWS, GCP 등 클라우드 인프라 경험\n- Docker, Kubernetes 사용 경험\n- CI/CD 파이프라인 구축 경험",
+                "competencies": "Python, FastAPI, SQLAlchemy, MySQL, Docker, AWS",
+                "jd_file_id": "file_abc123",
+                "extra_file_id": "file_xyz789",
+                "status": "DRAFT"
+            },
+            {
+                "title": "프론트엔드 개발 인턴",
+                "employment_type": "인턴",
+                "location_city": "경기",
+                "career_level": "신입/인턴",
+                "education_level": "대학 재학 이상",
+                "position_group": "개발",
+                "position": "프론트엔드 개발자",
+                "start_date": "2025-12-01",
+                "term_months": "6개월 (정규직 전환 가능)",
+                "salary_range": "2000만 ~ 3000만",
+                "deadline_date": "2025-11-15",
+                "contact_email": "intern@company.example.com",
+                "responsibilities": "- React 기반 웹 애플리케이션 개발\n- UI/UX 개선 작업\n- 코드 리뷰 및 학습",
+                "requirements_must": "- JavaScript, React 기본 지식\n- HTML/CSS 활용 능력\n- Git 사용 경험",
+                "requirements_nice": "- TypeScript 경험\n- 개인/팀 프로젝트 경험",
+                "competencies": "JavaScript, React, HTML, CSS",
+                "status": "PUBLISHED"
+            }
+        ]
     })
 
 

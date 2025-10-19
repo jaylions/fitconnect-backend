@@ -13,6 +13,7 @@ class Document(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.id"), nullable=False)
 
+    # 문서 타입: resume(이력서), cover_letter(자기소개서), portfolio(포트폴리오)
     doc_type: Mapped[str] = mapped_column(
         Enum("resume", "cover_letter", "portfolio", name="document_type"), nullable=False
     )

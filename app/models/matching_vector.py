@@ -20,6 +20,7 @@ class MatchingVector(Base):
     user_id: Mapped[int] = mapped_column(
         BigInteger, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
+    # 벡터 소유자 역할: talent(인재 벡터), company(기업 벡터)
     role: Mapped[str] = mapped_column(
         Enum("talent", "company", name="matching_vector_role"), nullable=False, index=True
     )

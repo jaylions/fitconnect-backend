@@ -1,0 +1,301 @@
+nohup: ignoring input
+INFO:     Started server process [71116]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     125.131.155.163:56130 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:56130 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:56132 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56132 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     211.231.103.91:40620 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.71:36256 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.118:51706 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.0.238.68:54104 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:55443 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:55443 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56140 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56140 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     27.0.238.186:55714 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.0.238.68:54110 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.182:33230 - "GET /docs HTTP/1.1" 200 OK
+INFO:     211.231.103.104:54210 - "GET /docs HTTP/1.1" 200 OK
+INFO:     211.231.103.105:38342 - "GET / HTTP/1.1" 404 Not Found
+INFO:     211.231.103.106:34174 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.118:51708 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:63631 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:63631 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56142 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56142 - "GET /openapi.json HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/home/ec2-user/.cache/pypoetry/virtualenvs/fitconnect-backend-whVXfsxN-py3.11/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     125.131.155.163:56145 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56148 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56296 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56296 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60581 - "OPTIONS /auth/login/ HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60581 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:60400 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60581 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:51074 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:51074 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:50421 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:50421 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56399 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:56399 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:63119 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:63119 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:50075 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:50075 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:54842 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:54842 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:57274 - "POST /auth/login/ HTTP/1.1" 307 Temporary Redirect
+INFO:     125.131.155.163:57274 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:54045 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:51074 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:63449 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:53648 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:52346 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:62345 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:62025 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     27.0.238.68:56964 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:61068 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:65517 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56966 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     125.131.155.163:56966 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:56966 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:56478 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:56478 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:56478 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:56478 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63177 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63177 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63809 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63809 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63809 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:63809 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:55919 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:55919 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:53698 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:53698 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     125.131.155.163:59334 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     125.131.155.163:59334 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+WARNING:  Invalid HTTP request received.
+INFO:     65.49.1.38:31180 - "GET / HTTP/1.1" 404 Not Found
+INFO:     65.49.1.45:61069 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     65.49.1.49:37443 - "GET /?format=json HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     211.231.103.107:50232 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.0.238.187:33786 - "GET /docs HTTP/1.1" 200 OK
+INFO:     117.111.11.230:15890 - "GET / HTTP/1.1" 404 Not Found
+INFO:     117.111.11.230:15374 - "GET /docs HTTP/1.1" 200 OK
+INFO:     117.111.11.230:15374 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     182.209.103.156:58478 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:58478 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     185.180.140.12:43869 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     162.243.45.82:44800 - "GET / HTTP/1.1" 404 Not Found
+INFO:     162.243.45.82:44816 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     146.190.134.221:37212 - "POST /api/client/update?arch=amd64&commit=08059e95dacafe0bf6e5782f8e2c8ec9cd8c5a17&os=windows HTTP/1.1" 404 Not Found
+INFO:     3.134.148.59:37718 - "GET / HTTP/1.1" 404 Not Found
+INFO:     3.134.148.59:44934 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     64.62.156.52:55592 - "GET / HTTP/1.1" 404 Not Found
+INFO:     64.62.156.64:30743 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     64.62.156.52:51495 - "GET /?format=json HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     182.209.103.156:58679 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:64383 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:64913 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:56774 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:49959 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:50872 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53021 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:59901 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19162 - "POST /auth/login HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:50658 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:65478 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:56527 - "POST /auth/register HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:60828 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:61504 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:50308 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:62060 - "POST /auth/login HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     182.209.103.156:63119 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:63119 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:19177 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:63155 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:61602 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:19177 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:49667 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:49667 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:56337 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:51497 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:63353 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:60622 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:60622 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:60360 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19214 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:19214 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19215 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:61445 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:58581 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62068 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53568 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19229 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:19229 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:58255 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:53292 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:53445 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:52905 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:55739 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:55411 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:49666 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:49667 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:50519 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:53061 - "POST /api/me/talent/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:19240 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:53498 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:51936 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:51936 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:62720 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:52807 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:56808 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:52046 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:59463 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:61130 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:49825 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53729 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:59808 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:63087 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:64624 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:58572 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:54275 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19244 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     27.0.238.117:60444 - "GET /docs HTTP/1.1" 200 OK
+INFO:     211.231.103.104:33916 - "GET /docs HTTP/1.1" 200 OK
+INFO:     211.231.103.93:54446 - "GET /docs HTTP/1.1" 200 OK
+INFO:     182.209.103.156:61046 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:64197 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:56743 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62609 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:62609 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:57316 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:57316 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:58849 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:61675 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:51424 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:62087 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:53837 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:19293 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:19294 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:19294 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:49667 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:49667 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:57370 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:61408 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62850 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:62850 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:59992 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:52467 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:58653 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:63150 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:62921 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:50997 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19307 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:52620 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:51434 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:54518 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62034 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:54859 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:54859 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62473 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:49666 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:54719 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:55525 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:64786 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:54501 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:60623 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:62948 - "POST /api/me/talent/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:60083 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:19315 - "POST /api/me/talent/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:52740 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:52740 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     182.209.103.156:65179 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:65179 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:53697 - "OPTIONS /api/me/company/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:53697 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     118.123.1.38:47874 - "GET /login/stylesheets/theme.css HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:47826 - "GET /index.php HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:49174 - "GET /customer/js/lang_zh_tw.js HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:49134 - "GET /ips/index.php HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:47858 - "GET / HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:47842 - "GET /index.php HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:49156 - "GET /chs/js/lang_zh_tw.js HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:49148 - "GET /public/stylesheets/theme.css HTTP/1.1" 404 Not Found
+INFO:     118.123.1.38:47890 - "GET /stylesheets/theme.css HTTP/1.1" 404 Not Found
+INFO:     182.209.103.156:53621 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:52094 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53922 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53666 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:63577 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:50714 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:58921 - "OPTIONS /api/me/company/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:58921 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:62311 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:54237 - "POST /api/me/company/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:63013 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:64164 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:64164 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:60271 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:56887 - "POST /api/me/company/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:49667 - "POST /api/me/company/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:49667 - "POST /api/me/company/full HTTP/1.1" 201 Created
+INFO:     182.209.103.156:49667 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     206.168.34.196:51028 - "GET / HTTP/1.1" 404 Not Found
+INFO:     206.168.34.196:52120 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     206.168.34.196:52186 - "GET /.well-known/security.txt HTTP/1.1" 404 Not Found
+INFO:     60.191.125.35:57582 - "HEAD / HTTP/1.1" 404 Not Found
+INFO:     182.209.103.156:61024 - "OPTIONS /api/me/company/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:61024 - "POST /api/me/company/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:49951 - "OPTIONS /api/me/company/job-postings HTTP/1.1" 200 OK
+INFO:     182.209.103.156:49951 - "POST /api/me/company/job-postings HTTP/1.1" 401 Unauthorized
+INFO:     149.88.18.12:3262 - "GET /.well-known/agent-card.json HTTP/1.1" 404 Not Found
+INFO:     20.84.153.199:48312 - "GET / HTTP/1.1" 404 Not Found
+WARNING:  Invalid HTTP request received.
+INFO:     109.105.210.99:54567 - "GET / HTTP/1.1" 404 Not Found
+INFO:     1.235.86.100:52281 - "OPTIONS /auth/register HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52281 - "POST /auth/register HTTP/1.1" 400 Bad Request
+INFO:     1.235.86.100:52281 - "POST /auth/register HTTP/1.1" 400 Bad Request
+INFO:     1.235.86.100:52282 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52282 - "POST /auth/login HTTP/1.1" 401 Unauthorized
+INFO:     1.235.86.100:52336 - "POST /auth/login HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:58247 - "OPTIONS /api/me/company/full HTTP/1.1" 200 OK
+INFO:     182.209.103.156:58247 - "POST /api/me/company/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:60617 - "POST /api/me/company/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:56409 - "POST /api/me/company/full HTTP/1.1" 401 Unauthorized
+INFO:     182.209.103.156:20921 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:20921 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     182.209.103.156:20921 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     182.209.103.156:53295 - "POST /api/me/company/full HTTP/1.1" 422 Unprocessable Entity
+INFO:     178.128.37.8:49290 - "GET / HTTP/1.1" 404 Not Found
+INFO:     178.128.37.8:49298 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     1.235.86.100:52822 - "GET /docs HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52822 - "GET /openapi.json HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     159.65.73.229:60000 - "GET / HTTP/1.1" 404 Not Found
+INFO:     159.65.73.229:60014 - "GET /login HTTP/1.1" 404 Not Found
+INFO:     1.235.86.100:52843 - "GET /docs HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52843 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52873 - "GET /docs HTTP/1.1" 200 OK
+INFO:     1.235.86.100:52873 - "GET /openapi.json HTTP/1.1" 200 OK
