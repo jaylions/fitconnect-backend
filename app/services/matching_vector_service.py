@@ -68,3 +68,47 @@ def delete(db: Session, user_id: int, matching_vector_id: int):
     row = _require_owned(row, user_id)
     matching_vector_repo.delete(db, row=row)
     return row
+
+
+def get_vector_detail_by_id(db: Session, vector_id: int) -> Dict[str, Any]:
+    """
+    Vector ID로 벡터 상세 정보 조회 (인증 불필요)
+    - role 반환
+    - talent_card_id 또는 job_posting_card_id 조회하여 어떤 참조인지 반환
+    - 모든 vector 값 반환
+    """
+    from app.models.talent_card import TalentCard
+    from app.models.job_posting_card import JobPostingCard
+
+    row = matching_vector_repo.get_by_id(db, vector_id)
+    if row is None:
+        raise _error(status.HTTP_404_NOT_FOUND, "MATCHING_VECTOR_NOT_FOUND", "Matching vector not found")
+
+    result = {
+        "id": row.id,
+        "user_id": row.user_id,
+        "role": row.role,
+        "reference_type": None,
+        "reference_id": None,
+        "vector_roles": row.vector_roles,
+        "vector_skills": row.vector_skills,
+        "vector_growth": row.vector_growth,
+        "vector_career": row.vector_career,
+        "vector_vision": row.vector_vision,
+        "vector_culture": row.vector_culture,
+        "updated_at": row.updated_at,
+    }
+
+    # role에 따라 talent_card 또는 job_posting_card 찾기
+    if row.role == "talent":
+        talent_card = db.query(TalentCard).filter(TalentCard.user_id == row.user_id).first()
+        if talent_card:
+            result["reference_type"] = "talent"
+            result["reference_id"] = talent_card.id
+    elif row.role == "company":
+        job_posting_card = db.query(JobPostingCard).filter(JobPostingCard.user_id == row.user_id).first()
+        if job_posting_card:
+            result["reference_type"] = "job_posting"
+            result["reference_id"] = job_posting_card.id
+
+    return result

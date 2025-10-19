@@ -39,3 +39,21 @@ class MatchingVectorOut(MatchingVectorBase):
     user_id: int
     role: str
     updated_at: datetime
+
+
+class MatchingVectorDetailOut(BaseModel):
+    """Vector ID로 조회할 때 사용하는 상세 응답 스키마"""
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    role: str
+    reference_type: Optional[str] = None  # "talent" or "job_posting"
+    reference_id: Optional[int] = None    # talent_card_id or job_posting_card_id
+    vector_roles: Optional[Dict[str, Any]] = None
+    vector_skills: Optional[Dict[str, Any]] = None
+    vector_growth: Optional[Dict[str, Any]] = None
+    vector_career: Optional[Dict[str, Any]] = None
+    vector_vision: Optional[Dict[str, Any]] = None
+    vector_culture: Optional[Dict[str, Any]] = None
+    updated_at: datetime
