@@ -50,6 +50,8 @@ def create_matching_vector(
         if exc.status_code in (
             status.HTTP_409_CONFLICT,
             status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status.HTTP_404_NOT_FOUND,
+            status.HTTP_403_FORBIDDEN,
         ):
             return _error_response(exc)
         raise

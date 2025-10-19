@@ -19,6 +19,7 @@ class MatchingVectorBase(BaseModel):
 
 class MatchingVectorCreateIn(MatchingVectorBase):
     role: Literal["talent", "company"]
+    job_posting_id: Optional[int] = None  # company일 때 필수
 
 
 class MatchingVectorUpdateIn(BaseModel):
@@ -38,6 +39,7 @@ class MatchingVectorOut(MatchingVectorBase):
     id: int
     user_id: int
     role: str
+    job_posting_id: Optional[int] = None
     updated_at: datetime
 
 
@@ -48,6 +50,7 @@ class MatchingVectorDetailOut(BaseModel):
     id: int
     user_id: int
     role: str
+    job_posting_id: Optional[int] = None
     reference_type: Optional[str] = None  # "talent" or "job_posting"
     reference_id: Optional[int] = None    # talent_card_id or job_posting_card_id
     vector_roles: Optional[Dict[str, Any]] = None

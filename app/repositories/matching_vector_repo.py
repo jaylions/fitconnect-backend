@@ -20,15 +20,32 @@ def get_by_user_and_role(db: Session, user_id: int, role: str) -> Optional[Match
     return db.execute(stmt).scalar_one_or_none()
 
 
+def get_by_user_and_job_posting(
+    db: Session, user_id: int, job_posting_id: Optional[int]
+) -> Optional[MatchingVector]:
+    """
+    user_id와 job_posting_id로 벡터 조회
+    - talent: job_posting_id=None, user_id로만 조회
+    - company: job_posting_id로 조회
+    """
+    stmt = select(MatchingVector).where(
+        MatchingVector.user_id == user_id,
+        MatchingVector.job_posting_id == job_posting_id,
+    )
+    return db.execute(stmt).scalar_one_or_none()
+
+
 def create(
     db: Session,
     user_id: int,
     role: str,
+    job_posting_id: Optional[int],
     payload: dict,
 ) -> MatchingVector:
     row = MatchingVector(
         user_id=user_id,
         role=role,
+        job_posting_id=job_posting_id,
         **payload,
     )
     db.add(row)
