@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, ConfigDict
 
@@ -18,7 +18,7 @@ class MatchingVectorBase(BaseModel):
 
 
 class MatchingVectorCreateIn(MatchingVectorBase):
-    role: Literal["talent", "company"]
+    role: str  # 예: talent, company
     job_posting_id: Optional[int] = None  # company일 때 필수
 
 

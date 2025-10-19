@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Literal, Optional
+from typing import Optional
 
 from pydantic import BaseModel, HttpUrl, field_validator
 
@@ -25,7 +25,7 @@ def _parse_ym_or_date(v: Optional[str | date]) -> Optional[date]:
 class EducationCreateIn(BaseModel):
     school_name: str
     major: Optional[str] = None
-    status: Literal["재학", "휴학", "졸업 예정", "졸업 유예", "졸업", "중퇴"]
+    status: str  # 예: 재학, 휴학, 졸업 예정, 졸업 유예, 졸업, 중퇴
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
 
@@ -38,7 +38,7 @@ class EducationCreateIn(BaseModel):
 class EducationUpdateIn(BaseModel):
     school_name: Optional[str] = None
     major: Optional[str] = None
-    status: Optional[Literal["재학", "휴학", "졸업 예정", "졸업 유예", "졸업", "중퇴"]] = None
+    status: Optional[str] = None  # 예: 재학, 휴학, 졸업 예정, 졸업 유예, 졸업, 중퇴
     start_ym: Optional[date] = None
     end_ym: Optional[date] = None
 
@@ -123,7 +123,7 @@ class CertificationUpdateIn(BaseModel):
 
 
 class DocumentCreateIn(BaseModel):
-    doc_type: Literal["resume", "cover_letter", "portfolio"]
+    doc_type: str  # 예: resume, cover_letter, portfolio
     storage_url: HttpUrl
     original_name: str
     mime_type: Optional[str] = None
@@ -131,7 +131,7 @@ class DocumentCreateIn(BaseModel):
 
 
 class DocumentUpdateIn(BaseModel):
-    doc_type: Optional[Literal["resume", "cover_letter", "portfolio"]] = None
+    doc_type: Optional[str] = None  # 예: resume, cover_letter, portfolio
     storage_url: Optional[HttpUrl] = None
     original_name: Optional[str] = None
     mime_type: Optional[str] = None
