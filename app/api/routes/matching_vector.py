@@ -26,6 +26,28 @@ def _error_response(exc: HTTPException) -> JSONResponse:
     return JSONResponse(status_code=exc.status_code, content={"ok": False, "error": exc.detail})
 
 
+@router.get("")
+def get_my_matching_vectors(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    현재 로그인한 사용자의 모든 매칭 벡터 조회
+    
+    - **Talent**: 최대 1개 (user당 1개)
+    - **Company**: 여러 개 가능 (job_posting당 1개)
+    
+    Returns:
+    - 벡터 목록 (최신순 정렬)
+    - 빈 배열 (벡터가 없을 경우)
+    """
+    vectors = matching_vector_service.get_all_by_user(db, user_id=int(user["id"]))
+    
+    serialized_vectors = [_serialize(v) for v in vectors]
+    
+    return {"ok": True, "data": serialized_vectors}
+
+
 @router.post("")
 def create_matching_vector(
     payload: MatchingVectorCreateIn,

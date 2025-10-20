@@ -111,6 +111,15 @@ def delete(db: Session, user_id: int, matching_vector_id: int):
     return row
 
 
+def get_all_by_user(db: Session, user_id: int) -> list:
+    """
+    현재 사용자의 모든 매칭 벡터 조회 (최신순)
+    - talent: 최대 1개
+    - company: 여러 개 (job_posting별)
+    """
+    return matching_vector_repo.get_all_by_user(db, user_id)
+
+
 def get_vector_detail_by_id(db: Session, vector_id: int) -> Dict[str, Any]:
     """
     Vector ID로 벡터 상세 정보 조회 (인증 불필요)
