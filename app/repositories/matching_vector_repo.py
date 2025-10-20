@@ -35,6 +35,20 @@ def get_by_user_and_job_posting(
     return db.execute(stmt).scalar_one_or_none()
 
 
+def get_all_by_user(db: Session, user_id: int) -> list[MatchingVector]:
+    """
+    user_id로 모든 벡터 조회 (최신순)
+    - talent: 최대 1개
+    - company: 여러 개 가능
+    """
+    stmt = (
+        select(MatchingVector)
+        .where(MatchingVector.user_id == user_id)
+        .order_by(MatchingVector.updated_at.desc())
+    )
+    return list(db.execute(stmt).scalars().all())
+
+
 def create(
     db: Session,
     user_id: int,
