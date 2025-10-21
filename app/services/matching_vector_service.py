@@ -55,7 +55,7 @@ def create(db: Session, user_id: int, role: str, payload: Dict[str, Any]):
         if not job_posting:
             raise _error(status.HTTP_404_NOT_FOUND, "JOB_POSTING_NOT_FOUND", "Job posting not found")
         
-        company = db.query(Company).filter(Company.id == job_posting.company_id, Company.user_id == user_id).first()
+        company = db.query(Company).filter(Company.id == job_posting.company_id, Company.owner_user_id == user_id).first()
         if not company:
             raise _error(status.HTTP_403_FORBIDDEN, "FORBIDDEN", "Job posting does not belong to you")
     
