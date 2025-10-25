@@ -1,19 +1,104 @@
 nohup: ignoring input
-INFO:     Started server process [1025334]
+INFO:     Started server process [1027435]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     162.43.227.190:0 - "GET / HTTP/1.1" 404 Not Found
-INFO:     162.43.227.190:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     45.114.242.109:0 - "GET / HTTP/1.1" 404 Not Found
-INFO:     45.114.242.109:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     125.131.155.163:0 - "GET / HTTP/1.1" 404 Not Found
-INFO:     125.131.155.163:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
-INFO:     125.131.155.163:0 - "GET /docs HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /openapi.json HTTP/1.1" 200 OK
-INFO:     27.0.238.116:0 - "GET /docs HTTP/1.1" 200 OK
-INFO:     27.0.238.69:0 - "GET /docs HTTP/1.1" 200 OK
-INFO:     27.0.238.70:0 - "GET /docs HTTP/1.1" 200 OK
-INFO:     205.169.39.50:0 - "GET / HTTP/1.1" 404 Not Found
-INFO:     34.122.147.229:0 - "GET / HTTP/1.1" 404 Not Found
-INFO:     34.87.40.28:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:52008 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:52008 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60612 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60612 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/me/company/job-postings HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/job_posting_cards/1 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/me/company HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/company HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/job_posting_cards/1 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/company/job-postings HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/home/ec2-user/.cache/pypoetry/virtualenvs/fitconnect-backend-WEZ_rzub-py3.11/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     125.131.155.163:0 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/company HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/me/talent/basic HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/basic HTTP/1.1" 200 OK
+INFO:     125.131.155.163:61000 - "GET /api/matching-results/talents/1/job-postings?min_score=0&limit=100 HTTP/1.1" 401 Unauthorized
+INFO:     125.131.155.163:60975 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:60975 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:54408 - "GET /api/matching-results/talents/1/job-postings?min_score=0&limit=100 HTTP/1.1" 401 Unauthorized
+INFO:     125.131.155.163:60423 - "GET /api/matching-results/talents/2/job-postings?min_score=0&limit=100 HTTP/1.1" 401 Unauthorized
+INFO:     125.131.155.163:60423 - "GET /api/matching-results/talents/1/job-postings?min_score=0&limit=100 HTTP/1.1" 401 Unauthorized
+INFO:     125.131.155.163:52088 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:52090 - "GET /api/matching-results/job-postings/1/talents?min_score=0&limit=100 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:64607 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:64607 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:51907 - "GET /api/matching-results/talents/1/job-postings?min_score=0&limit=100 HTTP/1.1" 200 OK
+INFO:     3.238.57.161:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     54.186.16.83:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     135.148.100.196:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.0.238.181:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     27.0.238.182:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48432 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     149.57.180.46:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:50736 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:50736 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     125.131.155.163:52327 - "GET /api/matching-results/job-postings/1/talents?min_score=0&limit=100 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/me/talent/basic HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/basic HTTP/1.1" 200 OK
+INFO:     125.131.155.163:58257 - "GET /api/matching-results/talents/1/job-postings?min_score=0&limit=100 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/matching-results/talents/1 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1 HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1 HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:52344 - "GET /api/matching-results/job-postings/1/talents?min_score=0&limit=100 HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1 HTTP/1.1" 404 Not Found
+INFO:     91.84.86.2:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     91.84.86.2:0 - "GET /css/support_parent.css HTTP/1.1" 404 Not Found
+INFO:     91.84.86.2:0 - "GET /js/twint_ch.js HTTP/1.1" 404 Not Found
+INFO:     91.84.86.2:0 - "GET /js/lkk_ch.js HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1 HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "OPTIONS /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
+INFO:     146.70.154.69:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     77.81.142.124:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     185.59.221.75:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     146.70.82.5:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     158.173.20.120:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     185.252.223.155:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     156.146.63.151:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     185.135.77.63:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
