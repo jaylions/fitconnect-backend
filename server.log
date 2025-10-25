@@ -1,15 +1,18 @@
 nohup: ignoring input
-INFO:     Started server process [739973]
+INFO:     Started server process [1025334]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     117.111.16.238:16727 - "GET /docs HTTP/1.1" 200 OK
-INFO:     117.111.16.238:16727 - "GET /openapi.json HTTP/1.1" 200 OK
-(trapped) error reading bcrypt version
-Traceback (most recent call last):
-  File "/home/ec2-user/.cache/pypoetry/virtualenvs/fitconnect-backend-WEZ_rzub-py3.11/lib/python3.11/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
-    version = _bcrypt.__about__.__version__
-              ^^^^^^^^^^^^^^^^^
-AttributeError: module 'bcrypt' has no attribute '__about__'
-INFO:     117.111.16.238:18191 - "POST /auth/register HTTP/1.1" 200 OK
-INFO:     117.111.16.238:25175 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     162.43.227.190:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     162.43.227.190:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     45.114.242.109:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     45.114.242.109:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     125.131.155.163:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     125.131.155.163:0 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     27.0.238.116:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.69:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     27.0.238.70:0 - "GET /docs HTTP/1.1" 200 OK
+INFO:     205.169.39.50:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.122.147.229:0 - "GET / HTTP/1.1" 404 Not Found
