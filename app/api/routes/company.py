@@ -265,3 +265,126 @@ def get_company_profile(company_id: int, db: Session = Depends(get_db)):
         raise
 
     return {"ok": True, "data": _serialize_company(company)}
+
+
+# 새로운 공개 라우터 추가 (job-postings용)
+job_posting_public_router = APIRouter(prefix="/api/job-postings", tags=["job_posting_public"])
+
+
+@job_posting_public_router.get("/{job_posting_id}")
+def get_public_job_posting(job_posting_id: int, db: Session = Depends(get_db)):
+    """
+    공개 채용공고 상세 조회
+    - 인증 불필요
+    - 채용공고 ID만으로 조회
+    """
+    try:
+        posting = job_posting_service.get_by_id(db, job_posting_id=job_posting_id)
+        
+        return {
+            "ok": True,
+            "data": {
+                "id": posting.id,
+                "company_id": posting.company_id,
+                "title": posting.title,
+                "position_group": posting.position_group,
+                "position": getattr(posting, "position", None),
+                "department": posting.department,
+                "employment_type": posting.employment_type,
+                "location_city": posting.location_city,
+                "location_detail": posting.location_detail,
+                "career_level": posting.career_level,
+                "education_level": posting.education_level,
+                "salary_min": posting.salary_min,
+                "salary_max": posting.salary_max,
+                "start_date": posting.start_date.isoformat() if posting.start_date else None,
+                "term_months": posting.term_months,
+                "work_hours": posting.work_hours,
+                "benefits": posting.benefits,
+                "required_skills": posting.required_skills,
+                "preferred_skills": posting.preferred_skills,
+                "responsibilities": posting.responsibilities,
+                "qualifications": posting.qualifications,
+                "interview_process": posting.interview_process,
+                "contact_email": posting.contact_email,
+                "contact_phone": posting.contact_phone,
+                "homepage_url": posting.homepage_url,
+                "apply_url": posting.apply_url,
+                "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
+                "posting_status": posting.posting_status,
+                "created_at": posting.created_at.isoformat() if posting.created_at else None,
+                "updated_at": posting.updated_at.isoformat() if posting.updated_at else None,
+            }
+        }
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(
+                status_code=404,
+                content={"ok": False, "error": {"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"}}
+            )
+        raise
+
+
+@public_router.get("/{company_id}/job-postings/{job_posting_id}")
+def get_public_job_posting_by_company(company_id: int, job_posting_id: int, db: Session = Depends(get_db)):
+    """
+    공개 채용공고 상세 조회 (회사별)
+    - 인증 불필요
+    - 특정 기업의 특정 채용공고 정보 반환
+    - 레거시 지원용 (deprecated, use /api/job-postings/{job_posting_id} instead)
+    """
+    try:
+        posting = job_posting_service.get_by_id(db, job_posting_id=job_posting_id)
+        
+        # 채용공고가 해당 기업의 것인지 확인
+        if posting.company_id != company_id:
+            return JSONResponse(
+                status_code=404,
+                content={
+                    "ok": False,
+                    "error": {"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found for this company"}
+                }
+            )
+        
+        return {
+            "ok": True,
+            "data": {
+                "id": posting.id,
+                "company_id": posting.company_id,
+                "title": posting.title,
+                "position_group": posting.position_group,
+                "position": getattr(posting, "position", None),
+                "department": posting.department,
+                "employment_type": posting.employment_type,
+                "location_city": posting.location_city,
+                "location_detail": posting.location_detail,
+                "career_level": posting.career_level,
+                "education_level": posting.education_level,
+                "salary_min": posting.salary_min,
+                "salary_max": posting.salary_max,
+                "start_date": posting.start_date.isoformat() if posting.start_date else None,
+                "term_months": posting.term_months,
+                "work_hours": posting.work_hours,
+                "benefits": posting.benefits,
+                "required_skills": posting.required_skills,
+                "preferred_skills": posting.preferred_skills,
+                "responsibilities": posting.responsibilities,
+                "qualifications": posting.qualifications,
+                "interview_process": posting.interview_process,
+                "contact_email": posting.contact_email,
+                "contact_phone": posting.contact_phone,
+                "homepage_url": posting.homepage_url,
+                "apply_url": posting.apply_url,
+                "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
+                "posting_status": posting.posting_status,
+                "created_at": posting.created_at.isoformat() if posting.created_at else None,
+                "updated_at": posting.updated_at.isoformat() if posting.updated_at else None,
+            }
+        }
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(
+                status_code=404,
+                content={"ok": False, "error": {"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"}}
+            )
+        raise

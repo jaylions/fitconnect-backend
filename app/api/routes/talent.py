@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, get_db
 from app.core.settings import settings  # noqa: F401  # kept for parity, not used directly
 from app.schemas.full_profile import FullProfileIn
 from app.schemas.talent_response import (
@@ -48,6 +49,7 @@ from app.schemas.talent_read import (
 
 
 router = APIRouter(prefix="/api/me/talent", tags=["talent"])
+public_router = APIRouter(prefix="/api/talents", tags=["talent_public"])
 
 
 @router.post("/full")
@@ -286,3 +288,36 @@ def delete_document(document_id: int, user=Depends(get_current_user)):
             return JSONResponse(status_code=e.status_code, content={"ok": False, "error": e.detail})
         raise
     return {"ok": True, "data": {"id": row.id, "deleted_at": row.deleted_at.isoformat() if row.deleted_at else None}}
+
+
+# ============================================================
+# 공개 API (Public API)
+# ============================================================
+
+@public_router.get("/{user_id}/profile", response_model=TalentFullResponse)
+def get_public_talent_profile(user_id: int, db: Session = Depends(get_db)) -> TalentFullResponse:
+    """
+    공개 인재 프로필 조회
+    - 인증 불필요
+    - 전체 프로필 정보 반환
+    """
+    try:
+        experiences = list_experiences(user_id)
+        total_experience_years = sum(exp.duration_years or 0 for exp in experiences)
+        data = TalentFullData(
+            basic=get_basic_profile(user_id),
+            educations=list_educations(user_id),
+            experiences=experiences,
+            experience_total_years=total_experience_years,
+            activities=list_activities(user_id),
+            certifications=list_certifications(user_id),
+            documents=list_documents(user_id),
+        )
+        return TalentFullResponse(data=data)
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(
+                status_code=404, 
+                content={"ok": False, "error": {"code": "TALENT_NOT_FOUND", "message": "Talent profile not found"}}
+            )
+        raise
