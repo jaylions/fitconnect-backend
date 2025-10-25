@@ -4,12 +4,22 @@ import json
 from datetime import datetime
 from typing import Any, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class CapabilityItem(BaseModel):
     name: str = Field(min_length=1)
-    level: str  # 예: low, medium, high
+    level: Optional[str] = None  # 예: low, medium, high
+    proficiency: Optional[str] = None  # 대체 필드: 초급, 중급, 고급 등
+    
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_fields(cls, data: Any) -> Any:
+        """proficiency가 있고 level이 없으면 proficiency를 level로 복사"""
+        if isinstance(data, dict):
+            if data.get("proficiency") and not data.get("level"):
+                data["level"] = data["proficiency"]
+        return data
 
 
 class TalentCardBase(BaseModel):

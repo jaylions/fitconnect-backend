@@ -1,12 +1,5 @@
 nohup: ignoring input
-INFO:     Started server process [1038215]
+INFO:     Started server process [1038658]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/me/talent/full HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/matching-results/talents/1/job-postings HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/companies/user/11 HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/job-postings/1 HTTP/1.1" 200 OK
-INFO:     125.131.155.163:0 - "GET /api/job_posting_cards/1 HTTP/1.1" 200 OK
