@@ -8,6 +8,7 @@ from app.api.routes.job_posting_card import router as job_posting_card_router
 from app.api.routes.talent_card import router as talent_card_router
 from app.api.routes.matching_vector import router as matching_vector_router, public_router as matching_vector_public_router
 from app.api.routes.vector_matching import router as vector_matching_router
+from app.api.routes.matching_result import router as matching_result_router
 
 
 app = FastAPI(title="FitConnect API")
@@ -35,6 +36,7 @@ app.include_router(talent_router)
 app.include_router(matching_vector_router)
 app.include_router(matching_vector_public_router)
 app.include_router(vector_matching_router)
+app.include_router(matching_result_router)
 app.include_router(company_router)
 app.include_router(company_public_router)
 app.include_router(job_posting_card_router)
