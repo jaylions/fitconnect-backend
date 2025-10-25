@@ -16,3 +16,4 @@ INFO:     27.0.238.69:0 - "GET /docs HTTP/1.1" 200 OK
 INFO:     27.0.238.70:0 - "GET /docs HTTP/1.1" 200 OK
 INFO:     205.169.39.50:0 - "GET / HTTP/1.1" 404 Not Found
 INFO:     34.122.147.229:0 - "GET / HTTP/1.1" 404 Not Found
+INFO:     34.87.40.28:0 - "GET / HTTP/1.1" 404 Not Found
