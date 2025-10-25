@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import logging
 from typing import Any, Dict
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories import matching_vector_repo
+
+logger = logging.getLogger(__name__)
 
 ALLOWED_ROLES = {"talent", "company"}
 VECTOR_FIELDS = (
@@ -90,6 +93,17 @@ def create(db: Session, user_id: int, role: str, payload: Dict[str, Any]):
     row = matching_vector_repo.create(
         db, user_id=user_id, role=role, job_posting_id=job_posting_id, payload=filtered
     )
+    
+    # ✅ 벡터 생성 후 자동 매칭 계산
+    try:
+        if role == "talent":
+            _calculate_all_matches_for_talent(db, row)
+        elif role == "company":
+            _calculate_all_matches_for_company(db, row)
+    except Exception as e:
+        logger.error(f"Auto-matching failed for vector {row.id}: {e}")
+        # 매칭 실패해도 벡터 생성은 성공으로 처리
+    
     return row
 
 
@@ -101,7 +115,19 @@ def update(db: Session, user_id: int, matching_vector_id: int, payload: Dict[str
     if not filtered:
         raise _error(status.HTTP_422_UNPROCESSABLE_ENTITY, "NO_FIELDS_TO_UPDATE", "Provide at least one field to update")
 
-    return matching_vector_repo.update(db, row=row, payload=filtered)
+    result = matching_vector_repo.update(db, row=row, payload=filtered)
+    
+    # ✅ 벡터 수정 후 자동 재매칭 계산
+    try:
+        if result.role == "talent":
+            _calculate_all_matches_for_talent(db, result)
+        elif result.role == "company":
+            _calculate_all_matches_for_company(db, result)
+    except Exception as e:
+        logger.error(f"Auto-matching failed for vector {result.id}: {e}")
+        # 매칭 실패해도 벡터 수정은 성공으로 처리
+    
+    return result
 
 
 def delete(db: Session, user_id: int, matching_vector_id: int):
@@ -163,3 +189,115 @@ def get_vector_detail_by_id(db: Session, vector_id: int) -> Dict[str, Any]:
         # job_posting_card는 별도로 조회할 필요 없음 (job_posting_id가 이미 있음)
 
     return result
+
+
+# ============================================================
+# 자동 매칭 계산 로직
+# ============================================================
+
+def _calculate_all_matches_for_talent(db: Session, talent_vector):
+    """
+    Talent 벡터가 생성/수정되면 모든 Company 벡터와 매칭 계산
+    
+    Args:
+        db: DB 세션
+        talent_vector: MatchingVector 객체 (role='talent')
+    """
+    from app.models.matching_vector import MatchingVector
+    from app.services import vector_matching_service
+    from app.repositories import matching_result_repo
+    
+    # 1. 모든 company 벡터 조회
+    company_vectors = db.query(MatchingVector).filter(
+        MatchingVector.role == "company"
+    ).all()
+    
+    logger.info(f"[Auto-Matching] Talent vector {talent_vector.id} → {len(company_vectors)} company vectors")
+    
+    success_count = 0
+    error_count = 0
+    
+    # 2. 각 company 벡터와 매칭 계산
+    for company_vector in company_vectors:
+        try:
+            # 매칭 계산 (기존 vector_matching_service 활용)
+            match_result = vector_matching_service.match(
+                db, 
+                source_id=talent_vector.id, 
+                target_id=company_vector.id
+            )
+            
+            # 3. 결과 저장 (UPSERT)
+            matching_result_repo.upsert_result(
+                db,
+                talent_vector_id=talent_vector.id,
+                company_vector_id=company_vector.id,
+                talent_user_id=talent_vector.user_id,
+                company_user_id=company_vector.user_id,
+                job_posting_id=company_vector.job_posting_id,
+                total_score=match_result["total_similarity"],
+                field_scores=match_result["field_scores"],
+            )
+            success_count += 1
+            
+        except Exception as e:
+            error_count += 1
+            logger.warning(f"[Auto-Matching] Failed: Talent {talent_vector.id} × Company {company_vector.id}: {e}")
+            continue
+    
+    db.flush()
+    logger.info(f"[Auto-Matching] Talent {talent_vector.id} completed: {success_count} success, {error_count} errors")
+
+
+def _calculate_all_matches_for_company(db: Session, company_vector):
+    """
+    Company 벡터가 생성/수정되면 모든 Talent 벡터와 매칭 계산
+    
+    Args:
+        db: DB 세션
+        company_vector: MatchingVector 객체 (role='company')
+    """
+    from app.models.matching_vector import MatchingVector
+    from app.services import vector_matching_service
+    from app.repositories import matching_result_repo
+    
+    # 1. 모든 talent 벡터 조회
+    talent_vectors = db.query(MatchingVector).filter(
+        MatchingVector.role == "talent"
+    ).all()
+    
+    logger.info(f"[Auto-Matching] Company vector {company_vector.id} (JobPosting {company_vector.job_posting_id}) → {len(talent_vectors)} talent vectors")
+    
+    success_count = 0
+    error_count = 0
+    
+    # 2. 각 talent 벡터와 매칭 계산
+    for talent_vector in talent_vectors:
+        try:
+            # 매칭 계산
+            match_result = vector_matching_service.match(
+                db,
+                source_id=talent_vector.id,
+                target_id=company_vector.id
+            )
+            
+            # 3. 결과 저장 (UPSERT)
+            matching_result_repo.upsert_result(
+                db,
+                talent_vector_id=talent_vector.id,
+                company_vector_id=company_vector.id,
+                talent_user_id=talent_vector.user_id,
+                company_user_id=company_vector.user_id,
+                job_posting_id=company_vector.job_posting_id,
+                total_score=match_result["total_similarity"],
+                field_scores=match_result["field_scores"],
+            )
+            success_count += 1
+            
+        except Exception as e:
+            error_count += 1
+            logger.warning(f"[Auto-Matching] Failed: Company {company_vector.id} × Talent {talent_vector.id}: {e}")
+            continue
+    
+    db.flush()
+    logger.info(f"[Auto-Matching] Company {company_vector.id} completed: {success_count} success, {error_count} errors")
