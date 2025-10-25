@@ -255,8 +255,30 @@ def delete_job_posting(
     }
 
 
+@public_router.get("/user/{user_id}")
+def get_company_profile_by_user(user_id: int, db: Session = Depends(get_db)):
+    """
+    공개 기업 프로필 조회 (user_id 기반)
+    - 인증 불필요
+    - user_id로 company 정보 조회 (1:1 매핑)
+    """
+    try:
+        company = company_service.get_company_by_user_id(db, user_id=user_id)
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(status_code=404, content={"ok": False, "error": e.detail})
+        raise
+
+    return {"ok": True, "data": _serialize_company(company)}
+
+
 @public_router.get("/{company_id}")
 def get_company_profile(company_id: int, db: Session = Depends(get_db)):
+    """
+    공개 기업 프로필 조회 (company_id 기반)
+    - 인증 불필요
+    - 레거시 지원용 (deprecated, use /api/companies/user/{user_id} instead)
+    """
     try:
         company = company_service.get_public_company(db, company_id=company_id)
     except HTTPException as e:

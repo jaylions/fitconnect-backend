@@ -47,6 +47,12 @@ def list_by_company(db: Session, company_id: int, status: Optional[str] = None) 
     return db.execute(stmt).scalars().all()
 
 
+def get_by_id(db: Session, posting_id: int) -> Optional[JobPosting]:
+    """채용공고 ID로 조회 (공개 API용)"""
+    stmt = select(JobPosting).where(JobPosting.id == posting_id, JobPosting.deleted_at.is_(None)).limit(1)
+    return db.execute(stmt).scalar_one_or_none()
+
+
 def get_by_id_and_company(db: Session, posting_id: int, company_id: int) -> Optional[JobPosting]:
     stmt = (
         select(JobPosting)

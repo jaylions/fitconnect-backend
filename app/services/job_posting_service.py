@@ -22,6 +22,17 @@ def _val_error(msg: str) -> HTTPException:
     return HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail={"code": "VALIDATION_ERROR", "message": msg})
 
 
+def get_by_id(db: Session, job_posting_id: int):
+    """채용공고 ID로 조회 (공개 API용)"""
+    posting = job_posting_repo.get_by_id(db, job_posting_id)
+    if posting is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"code": "JOB_POSTING_NOT_FOUND", "message": "Job posting not found"}
+        )
+    return posting
+
+
 def create(db: Session, owner_user_id: int, payload: dict):
     # Ensure company exists for user
     company = company_repo.get_by_owner(db, owner_user_id)
