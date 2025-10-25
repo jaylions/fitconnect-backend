@@ -29,6 +29,14 @@ class BasicProfile(BaseModel):
     phone: Optional[str] = None
     tagline: Optional[str] = None
     is_submitted: Optional[bool] = None
+    
+    # 관심내용 (인재 선호도 설정)
+    desired_role: Optional[str] = None  # 희망 직무
+    desired_salary: Optional[str] = None  # 희망 연봉
+    desired_industry: Optional[str] = None  # 희망 업종
+    desired_company_size: Optional[str] = None  # 희망 기업 규모
+    residence_location: Optional[str] = None  # 주거 지역
+    desired_work_location: Optional[str] = None  # 희망 근무 지역
 
     @field_validator("birth_date", mode="before")
     @classmethod

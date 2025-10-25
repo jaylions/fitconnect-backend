@@ -23,6 +23,14 @@ class TalentProfile(Base):
     )
     is_submitted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
+    # 관심내용 (인재 선호도 설정)
+    desired_role: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, comment="희망 직무")
+    desired_salary: Mapped[Optional[str]] = mapped_column(String(100), nullable=True, comment="희망 연봉")
+    desired_industry: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, comment="희망 업종")
+    desired_company_size: Mapped[Optional[str]] = mapped_column(String(100), nullable=True, comment="희망 기업 규모")
+    residence_location: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, comment="주거 지역")
+    desired_work_location: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, comment="희망 근무 지역")
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )

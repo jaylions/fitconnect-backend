@@ -100,6 +100,12 @@ def create_talent_users(db: Session):
             "role": "talent",
             "name": "김민수",
             "tagline": "React 전문 Frontend Developer",
+            "desired_role": "Frontend Developer",
+            "desired_salary": "4000만원 이상",
+            "desired_industry": "IT·인터넷",
+            "desired_company_size": "51~200명",
+            "residence_location": "서울 강남구",
+            "desired_work_location": "서울 전체",
             "vector": {
                 "vector_roles": {"dim": 5, "vector": [0.9, 0.8, 0.7, 0.6, 0.5]},
                 "vector_skills": {"dim": 5, "vector": [0.95, 0.9, 0.85, 0.8, 0.75]},
@@ -115,6 +121,12 @@ def create_talent_users(db: Session):
             "role": "talent",
             "name": "박지현",
             "tagline": "Java/Spring 전문 Backend Developer",
+            "desired_role": "Backend Developer",
+            "desired_salary": "5000만원 이상",
+            "desired_industry": "IT·인터넷",
+            "desired_company_size": "201~500명",
+            "residence_location": "서울 서초구",
+            "desired_work_location": "서울·경기 전체",
             "vector": {
                 "vector_roles": {"dim": 5, "vector": [0.85, 0.9, 0.8, 0.75, 0.7]},
                 "vector_skills": {"dim": 5, "vector": [0.9, 0.95, 0.85, 0.9, 0.8]},
@@ -130,6 +142,12 @@ def create_talent_users(db: Session):
             "role": "talent",
             "name": "이서연",
             "tagline": "데이터 기반 Performance Marketer",
+            "desired_role": "마케터",
+            "desired_salary": "3500만원 이상",
+            "desired_industry": "광고·마케팅",
+            "desired_company_size": "11~50명",
+            "residence_location": "서울 마포구",
+            "desired_work_location": "서울 서부(마포·서대문·은평)",
             "vector": {
                 "vector_roles": {"dim": 5, "vector": [0.8, 0.75, 0.9, 0.7, 0.85]},
                 "vector_skills": {"dim": 5, "vector": [0.85, 0.8, 0.95, 0.75, 0.9]},
@@ -145,6 +163,12 @@ def create_talent_users(db: Session):
             "role": "talent",
             "name": "김영준",
             "tagline": "Product Manager with Tech Background",
+            "desired_role": "프로덕트 매니저",
+            "desired_salary": "6000만원 이상",
+            "desired_industry": "IT·인터넷",
+            "desired_company_size": "501~1,000명",
+            "residence_location": "서울 성동구",
+            "desired_work_location": "서울 동부(성동·광진·강동)",
             "vector": {
                 "vector_roles": {"dim": 5, "vector": [0.75, 0.8, 0.85, 0.9, 0.7]},
                 "vector_skills": {"dim": 5, "vector": [0.8, 0.75, 0.85, 0.95, 0.8]},
@@ -160,6 +184,12 @@ def create_talent_users(db: Session):
             "role": "talent",
             "name": "박진우",
             "tagline": "B2B Sales Expert",
+            "desired_role": "영업",
+            "desired_salary": "4500만원 이상",
+            "desired_industry": "제조·유통",
+            "desired_company_size": "1,001명 이상",
+            "residence_location": "경기 성남시",
+            "desired_work_location": "경기 전체",
             "vector": {
                 "vector_roles": {"dim": 5, "vector": [0.7, 0.75, 0.8, 0.7, 0.95]},
                 "vector_skills": {"dim": 5, "vector": [0.75, 0.7, 0.85, 0.8, 0.95]},
@@ -183,12 +213,18 @@ def create_talent_users(db: Session):
         db.add(user)
         db.flush()  # ID 생성
         
-        # TalentProfile 생성 (기본)
+        # TalentProfile 생성 (관심내용 포함)
         profile = TalentProfile(
             user_id=user.id,
             name=talent_data["name"],
             email=talent_data["email"],
             tagline=talent_data["tagline"],
+            desired_role=talent_data.get("desired_role"),
+            desired_salary=talent_data.get("desired_salary"),
+            desired_industry=talent_data.get("desired_industry"),
+            desired_company_size=talent_data.get("desired_company_size"),
+            residence_location=talent_data.get("residence_location"),
+            desired_work_location=talent_data.get("desired_work_location"),
         )
         db.add(profile)
         db.flush()

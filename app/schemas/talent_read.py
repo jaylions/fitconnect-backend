@@ -19,6 +19,15 @@ class TalentBasicOut(_OrmBase):
     tagline: Optional[str] = None
     profile_step: Optional[int] = None
     is_submitted: bool
+    
+    # 관심내용 (인재 선호도 설정)
+    desired_role: Optional[str] = None  # 희망 직무
+    desired_salary: Optional[str] = None  # 희망 연봉
+    desired_industry: Optional[str] = None  # 희망 업종
+    desired_company_size: Optional[str] = None  # 희망 기업 규모
+    residence_location: Optional[str] = None  # 주거 지역
+    desired_work_location: Optional[str] = None  # 희망 근무 지역
+    
     created_at: datetime
     updated_at: datetime
 
