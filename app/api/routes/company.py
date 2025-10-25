@@ -109,7 +109,7 @@ def create_job_posting(payload: JobPostingCreateIn, user=Depends(require_company
                 "location_city": posting.location_city,
                 "career_level": posting.career_level,
                 "education_level": posting.education_level,
-                "start_date": posting.start_date.isoformat() if posting.start_date else None,
+                "start_date": posting.start_date,  # 이제 문자열로 저장됨
                 "term_months": posting.term_months,
                 "homepage_url": posting.homepage_url,
                 "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,

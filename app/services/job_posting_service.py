@@ -7,6 +7,13 @@ from app.repositories import company_repo
 from app.repositories import job_posting_repo
 
 ALLOWED_EMPLOYMENT = {
+    "정규직",
+    "계약직",
+    "파견직",
+    "인턴",
+    "임시직",
+    "기타",
+    # 기존 영문 값도 허용 (하위 호환성)
     "FULL_TIME",
     "PART_TIME",
     "CONTRACT",

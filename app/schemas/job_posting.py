@@ -22,7 +22,7 @@ class JobPostingCreateIn(BaseModel):
     department: Optional[str] = Field(None, description="부서명")
 
     # === 근무 조건 ===
-    start_date: Optional[date] = Field(None, description="입사 희망일")
+    start_date: Optional[str] = Field(None, description="입사 희망일 (예: 2025-11-15 또는 협의 후 결정)")
     term_months: Optional[str] = Field(None, description="계약 기간 (예: 12개월, 협의 후 결정)")
     salary_range: Optional[str] = Field(None, description="연봉 범위 (예: 2000만 ~ 3000만, 5000만 ~ 6000만)")
 
@@ -107,12 +107,12 @@ class JobPostingOut(BaseModel):
     position_group: Optional[str] = None
     position: Optional[str] = None
     department: Optional[str] = None
-    employment_type: str
+    employment_type: str  # String 타입
     location_city: str
     salary_range: Optional[str] = None
     career_level: str
     education_level: str
-    start_date: Optional[date] = None
+    start_date: Optional[str] = None  # String 타입으로 변경
     term_months: Optional[str] = None
     homepage_url: Optional[str] = None
     deadline_date: Optional[date] = None
