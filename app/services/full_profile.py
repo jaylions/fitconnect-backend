@@ -135,6 +135,7 @@ def save_full_profile(user_id: int, payload: FullProfileIn) -> FullProfileOut:
 
             return FullProfileOut(
                 user_id=user_id,
+                email=profile.email,
                 profile_step=profile.profile_step or 0,
                 is_submitted=1 if profile.is_submitted else 0,
             )

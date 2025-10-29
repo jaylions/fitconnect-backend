@@ -56,7 +56,7 @@ def get_public_company(db: Session, company_id: int):
 def get_company_by_user_id(db: Session, user_id: int):
     """user_id로 company 조회 (1:1 매핑)"""
     company = company_repo.get_by_owner(db, user_id)
-    if company is None or not company.is_submitted or company.status != "active":
+    if company is None or not company.is_submitted or company.status != "ACTIVE":
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail={"code": "COMPANY_NOT_FOUND", "message": "Company not found for this user"},

@@ -1,5 +1,5 @@
 nohup: ignoring input
-INFO:     Started server process [1047441]
+INFO:     Started server process [1233774]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

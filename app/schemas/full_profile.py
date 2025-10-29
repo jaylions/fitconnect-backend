@@ -114,6 +114,6 @@ class FullProfileIn(BaseModel):
 
 class FullProfileOut(BaseModel):
     user_id: int
-    email: str
+    email: Optional[str] = None
     profile_step: int
     is_submitted: int

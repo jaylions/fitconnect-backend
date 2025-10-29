@@ -154,7 +154,7 @@ def list_job_postings(posting_status: str | None = None, user=Depends(require_co
             "location_city": p.location_city,
             "career_level": p.career_level,
             "education_level": p.education_level,
-            "start_date": p.start_date.isoformat() if p.start_date else None,
+            "start_date": p.start_date,  # 이미 문자열이므로 그대로 반환
             "term_months": p.term_months,
             "homepage_url": p.homepage_url,
             "deadline_date": p.deadline_date.isoformat() if p.deadline_date else None,
@@ -210,7 +210,7 @@ def update_job_posting(
             "location_city": posting.location_city,
             "career_level": posting.career_level,
             "education_level": posting.education_level,
-            "start_date": posting.start_date.isoformat() if posting.start_date else None,
+            "start_date": posting.start_date,  # 이미 문자열
             "term_months": posting.term_months,
             "homepage_url": posting.homepage_url,
             "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
@@ -289,6 +289,29 @@ def get_company_profile(company_id: int, db: Session = Depends(get_db)):
     return {"ok": True, "data": _serialize_company(company)}
 
 
+# 공개 API: user_id로 기업 프로필 조회
+@public_router.get("/user/{user_id}")
+def get_company_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    """
+    공개 기업 프로필 조회 (user_id 기반)
+    - 인증 불필요
+    - 인재가 기업 프로필을 조회할 때 사용
+    - 제출되고(is_submitted=1) 활성화된(status=ACTIVE) 기업만 반환
+    - GET /api/me/company와 동일한 응답 포맷 사용
+    """
+    try:
+        company = company_service.get_company_by_user_id(db, user_id=user_id)
+    except HTTPException as e:
+        if e.status_code == status.HTTP_404_NOT_FOUND:
+            return JSONResponse(
+                status_code=404, 
+                content={"ok": False, "error": e.detail}
+            )
+        raise
+
+    return {"ok": True, "data": _serialize_company(company)}
+
+
 # 새로운 공개 라우터 추가 (job-postings용)
 job_posting_public_router = APIRouter(prefix="/api/job-postings", tags=["job_posting_public"])
 
@@ -317,7 +340,7 @@ def get_public_job_posting(job_posting_id: int, db: Session = Depends(get_db)):
                 "career_level": posting.career_level,
                 "education_level": posting.education_level,
                 "salary_range": posting.salary_range,
-                "start_date": posting.start_date.isoformat() if posting.start_date else None,
+                "start_date": posting.start_date,  # 이미 문자열
                 "term_months": posting.term_months,
                 "responsibilities": posting.responsibilities,
                 "requirements_must": posting.requirements_must,
@@ -375,26 +398,22 @@ def get_public_job_posting_by_company(company_id: int, job_posting_id: int, db: 
                 "department": posting.department,
                 "employment_type": posting.employment_type,
                 "location_city": posting.location_city,
-                "location_detail": posting.location_detail,
                 "career_level": posting.career_level,
                 "education_level": posting.education_level,
-                "salary_min": posting.salary_min,
-                "salary_max": posting.salary_max,
-                "start_date": posting.start_date.isoformat() if posting.start_date else None,
+                "salary_range": posting.salary_range,
+                "start_date": posting.start_date,  # 이미 문자열
                 "term_months": posting.term_months,
-                "work_hours": posting.work_hours,
-                "benefits": posting.benefits,
-                "required_skills": posting.required_skills,
-                "preferred_skills": posting.preferred_skills,
                 "responsibilities": posting.responsibilities,
-                "qualifications": posting.qualifications,
-                "interview_process": posting.interview_process,
+                "requirements_must": posting.requirements_must,
+                "requirements_nice": posting.requirements_nice,
+                "competencies": posting.competencies,
                 "contact_email": posting.contact_email,
                 "contact_phone": posting.contact_phone,
                 "homepage_url": posting.homepage_url,
-                "apply_url": posting.apply_url,
                 "deadline_date": posting.deadline_date.isoformat() if posting.deadline_date else None,
-                "posting_status": posting.posting_status,
+                "jd_file_id": posting.jd_file_id,
+                "extra_file_id": posting.extra_file_id,
+                "status": posting.status,
                 "created_at": posting.created_at.isoformat() if posting.created_at else None,
                 "updated_at": posting.updated_at.isoformat() if posting.updated_at else None,
             }
